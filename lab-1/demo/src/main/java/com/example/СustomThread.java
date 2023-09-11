@@ -9,7 +9,7 @@ class CustomThread extends Thread {
 
     public CustomThread(JSlider sharedSlider) {
         this.sharedSlider = sharedSlider;
-        this.setPriority(NORM_PRIORITY);
+        this.setPriority(Thread.MIN_PRIORITY);
     }
 
     public void setTargetSliderValue(int targetSliderValue) {
@@ -36,6 +36,7 @@ class CustomThread extends Thread {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                break;
             }
         }
     }
