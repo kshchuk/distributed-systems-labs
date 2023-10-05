@@ -32,28 +32,24 @@ func main() {
 		monks[i] = &Monk{rand.Intn(100), "Monk " + strconv.Itoa(i)}
 	}
 
+	winnerCh := make(chan *Monk)
+	defer close(winnerCh)
+
 	round := 1
 	for len(monks) > 1 {
 		fmt.Printf("Round %d:\n", round)
 		round++
 
-		winnerCh := make(chan *Monk)
-
 		for i := 0; i < len(monks); i += 2 {
 			go battle(monks[i], monks[i+1], winnerCh)
 		}
 
-		for i := 0; i < len(monks)/2; i++ {
-			winner := <-winnerCh
-			fmt.Println("Winner: ", winner.name, " with Energy: ", winner.energy)
-		}
-
-		close(winnerCh)
-
 		// Update monks list for next round
 		newMonks := make([]*Monk, 0)
 		for i := 0; i < len(monks); i += 2 {
-			newMonks = append(newMonks, <-winnerCh)
+			winner := <-winnerCh
+			fmt.Println("Winner: ", winner.name, " with Energy: ", winner.energy)
+			newMonks = append(newMonks, winner)
 		}
 
 		monks = newMonks
@@ -61,6 +57,5 @@ func main() {
 		time.Sleep(3000 * time.Millisecond)
 	}
 
-	fmt.Println("Final winner:", monks[0].name, monks[0].energy)
-
+	fmt.Println("Final winner:", monks[0].name, " with Energy: ", monks[0].energy)
 }
