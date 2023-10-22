@@ -10,11 +10,12 @@ public class App
 {
     public static void main(String[] args) {
         BlockingQueue<Integer> storage = new LinkedBlockingQueue<>();
+        BlockingQueue<Integer> car = new LinkedBlockingQueue<>();
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         Ivanov ivanov = new Ivanov(storage);
-        Petrov petrov = new Petrov(storage);
-        Nechiporchuk nechiporchuk = new Nechiporchuk(storage);
+        Petrov petrov = new Petrov(storage, car);
+        Nechiporchuk nechiporchuk = new Nechiporchuk(car);
 
         executor.submit(ivanov);
         executor.submit(petrov);

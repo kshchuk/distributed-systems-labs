@@ -3,10 +3,10 @@ package com.officer;
 import java.util.concurrent.BlockingQueue;
 
 public class Nechiporchuk implements Runnable {
-        private BlockingQueue<Integer> storage;
+        private BlockingQueue<Integer> car;
 
-    public Nechiporchuk(BlockingQueue<Integer> storage) {
-        this.storage = storage;
+    public Nechiporchuk(BlockingQueue<Integer> car) {
+        this.car = car;
     }
 
     @Override
@@ -15,11 +15,11 @@ public class Nechiporchuk implements Runnable {
 
         try {
             while (true) {
-                int item = storage.take(); // Take item from the storage, and block if storage is empty
+                int item = car.take(); // Take item from the storage, and block if car is empty
                 int itemValue = calculateItemValue(item); // Calculate item value
                 totalValue += itemValue;
                 Thread.sleep(100);
-                System.out.println("Nechiporchuk takes item " + item + " from the storage. Item value: " + itemValue);
+                System.out.println("Nechiporchuk takes item " + item + " from the car. Item value: " + itemValue);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
