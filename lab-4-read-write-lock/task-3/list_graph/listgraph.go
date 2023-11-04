@@ -20,6 +20,14 @@ type Graph struct {
 	lock sync.RWMutex
 }
 
+func (g *Graph) GetVerticesNumber() int {
+	return len(g.vertices)
+}
+
+func (g *Graph) GetEdgesNumber() int {
+	return len(g.edges)
+}
+
 // AddVertex adds a new vertex to the graph
 func (g *Graph) AddVertex(vertex int) {
 	g.lock.Lock()
@@ -227,7 +235,7 @@ func (g *Graph) DijkstraOneToOne(src, end int, pq priority_queue.HeapInterface) 
 	dist[src] = 0
 
 	// Insert source vertex into priority queue
-	pq.Insert(src, float64(dist[src]))
+	pq.Insert(src, dist[src])
 
 	for pq.Num() > 0 {
 		// Extract minimum distance vertex from priority queue
