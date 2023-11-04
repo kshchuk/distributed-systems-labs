@@ -92,7 +92,7 @@ func (e *Exchange) startTrading() {
 
 		wg.Wait()
 		close(semaphore)
-		
+
 		go func() {
 			for range barrier {
 				e.calculateExchangeIndex(barrier)
