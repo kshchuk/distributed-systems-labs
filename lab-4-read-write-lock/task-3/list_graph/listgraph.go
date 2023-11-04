@@ -20,6 +20,43 @@ type Graph struct {
 	lock sync.RWMutex
 }
 
+// AddVertex adds a new vertex to the graph
+func (g *Graph) AddVertex(vertex int) {
+	g.lock.Lock()
+	defer g.lock.Unlock()
+
+	var found bool = false
+	for i := 0; i < len(g.vertices); i++ {
+		if g.vertices[i] == vertex {
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		g.vertices = append(g.vertices, vertex)
+	}
+}
+
+func (g *Graph) RemoveVertex(vertex int) {
+	g.lock.Lock()
+	defer g.lock.Unlock()
+
+	for i, v := range g.vertices {
+		if v == vertex {
+			g.vertices = append(g.vertices[:i], g.vertices[i+1:]...)
+			break
+		}
+	}
+
+	for i := 0; i < len(g.edges); i++ {
+		if g.edges[i].src == vertex || g.edges[i].dest == vertex {
+			g.edges = append(g.edges[:i], g.edges[i+1:]...)
+			i--
+		}
+	}
+}
+
 // AddEdge adds a new weighted edge to the graph
 func (g *Graph) AddEdge(src, dest int, weight float64) {
 	g.lock.Lock()
@@ -50,6 +87,32 @@ func (g *Graph) AddEdge(src, dest int, weight float64) {
 
 	if !found {
 		g.vertices = append(g.vertices, dest)
+	}
+}
+
+// RemoveEdge removes an edge from the graph
+func (g *Graph) RemoveEdge(src, dest int) {
+	g.lock.Lock()
+	defer g.lock.Unlock()
+
+	for i, edge := range g.edges {
+		if edge.src == src && edge.dest == dest {
+			g.edges = append(g.edges[:i], g.edges[i+1:]...)
+			break
+		}
+	}
+}
+
+// SetWeight sets the weight of an edge
+func (g *Graph) SetWeight(src, dest int, weight float64) {
+	g.lock.Lock()
+	defer g.lock.Unlock()
+
+	for i, edge := range g.edges {
+		if edge.src == src && edge.dest == dest {
+			g.edges[i].weight = weight
+			break
+		}
 	}
 }
 
@@ -144,57 +207,64 @@ func (g *Graph) Dijkstra(src int, pq priority_queue.HeapInterface) ([]float64, [
 	return dist, prev
 }
 
-// Johnson computes the shortest paths between all pairs of vertices in the graph
-// using Johnson's algorithm
-func (g *Graph) Johnson() [][]float64 {
+// Dijkstra returns the shortest path from the source vertex to the end vertex
+func (g *Graph) DijkstraOneToOne(src, end int, pq priority_queue.HeapInterface) (float64, []int) {
 	g.lock.RLock()
 	defer g.lock.RUnlock()
 
 	n := len(g.vertices)
+	dist := make([]float64, n)
+	prev := make([]int, n)
+	visited := make([]bool, n)
 
-	// Add a new vertex s to the graph and edges of weight 0 from s to all other vertices
-	g.AddEdge(n, n+1, 0)
+	// Initialize distance array with infinity and previous array with -1
 	for i := 0; i < n; i++ {
-		g.AddEdge(n, i, 0)
+		dist[i] = math.Inf(1)
+		prev[i] = -1
 	}
 
-	// Run Bellman-Ford algorithm to get the potential function for each vertex
-	potential, _, hasNegativeCycle := g.BellmanFord(n)
+	// Set distance from source vertex to itself as 0
+	dist[src] = 0
 
-	// If there is a negative weight cycle in the graph, return nil
-	if !hasNegativeCycle {
-		return nil
-	}
+	// Insert source vertex into priority queue
+	pq.Insert(src, float64(dist[src]))
 
-	// Remove the added vertex and edges
-	g.edges = g.edges[:len(g.edges)-n-1]
-	for i := 0; i < n; i++ {
-		g.edges = g.edges[:len(g.edges)-1]
-	}
+	for pq.Num() > 0 {
+		// Extract minimum distance vertex from priority queue
+		u, _ := pq.ExtractMin()
 
-	// Create a new graph with edges of weight w(u,v) + h(u) - h(v)
-	newGraph := &Graph{vertices: g.vertices}
-	for _, edge := range g.edges {
-		u, v, w := edge.src, edge.dest, edge.weight
-		newW := w + potential[u] - potential[v]
-		newGraph.AddEdge(u, v, newW)
-	}
+		if visited[u.(int)] {
+			continue
+		}
 
-	// Initialize a 2D slice to store the shortest paths between all pairs of vertices
-	paths := make([][]float64, n)
-	for i := 0; i < n; i++ {
-		paths[i] = make([]float64, n)
-	}
+		visited[u.(int)] = true
 
-	// Run Dijkstra's algorithm from each vertex to get the shortest paths to all other vertices
-	for i := 0; i < n; i++ {
-		dist, _ := newGraph.Dijkstra(i, priority_queue.NewFibHeap())
+		// Relax edges
+		for _, edge := range g.edges {
+			if edge.src == u.(int) {
+				v := edge.dest
+				w := edge.weight
+				if dist[u.(int)]+w < dist[v] {
+					dist[v] = dist[u.(int)] + w
+					prev[v] = u.(int)
+					pq.Insert(v, float64(dist[v]))
+				}
+			}
+		}
 
-		// Adjust the distances using the potential function to get the actual distances
-		for j := 0; j < n; j++ {
-			paths[i][j] = dist[j] - potential[i] + potential[j]
+		// If we've visited the end vertex, we can stop early
+		if u.(int) == end {
+			break
 		}
 	}
 
-	return paths
+	// Build the shortest path from source to end vertex
+	path := []int{}
+	if dist[end] < math.Inf(1) {
+		for j := end; j != -1; j = prev[j] {
+			path = append([]int{j}, path...)
+		}
+	}
+
+	return dist[end], path
 }
