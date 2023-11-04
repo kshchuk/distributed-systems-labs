@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.IOException;
+
 public class Reader extends Thread{
     protected final Database database;
 
@@ -37,6 +39,8 @@ public class Reader extends Thread{
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,19 +1,21 @@
 package org.example;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Database database = new Database();
         Random random = new Random();
 
         for (int i = 0; i < 10; i++) {
             try {
                 database.write("name" + i, "phone" + i);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -82,7 +84,7 @@ public class Main {
                 System.out.println("_____________________________________________________________");
 
                 executor.shutdown();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }

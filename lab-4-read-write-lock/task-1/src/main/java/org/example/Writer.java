@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.IOException;
+
 public class Writer extends Reader{
     public enum WriterAction {
         READER_ACTION,
@@ -36,6 +38,8 @@ public class Writer extends Reader{
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
