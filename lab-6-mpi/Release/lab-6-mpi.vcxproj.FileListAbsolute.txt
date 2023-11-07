@@ -1,0 +1,1 @@
+D:\distributed-systems\lab-6-mpi\Release\lab-6-mpi.exe

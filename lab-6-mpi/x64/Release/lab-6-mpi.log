@@ -1,0 +1,10 @@
+﻿lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Comm_split
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Wtime
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Cart_create
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Cart_sub
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Scatter
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Bcast
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Gather
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Sendrecv_replace
+lab-6-mpi.obj : error LNK2001: unresolved external symbol MPI_Cart_coords
+D:\distributed-systems\lab-6-mpi\x64\Release\lab-6-mpi.exe : fatal error LNK1120: 9 unresolved externals
