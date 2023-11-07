@@ -30,4 +30,12 @@ public class ReadWriteLock {
         writers--;
         notifyAll();
     }
+
+    public int getReaders() {
+        return readers;
+    }
+
+    public int getWriters() {
+        return writers;
+    }
 }
