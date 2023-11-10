@@ -4,7 +4,6 @@
   <xs:complexType name="airlines">
     <xs:sequence>
       <xs:element name="airlines" type="airline" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="flights" type="flight" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -20,7 +19,6 @@
 
   <xs:complexType name="flight">
     <xs:sequence>
-      <xs:element name="airline" type="xs:string" minOccurs="0"/>
       <xs:element name="airline_id" type="xs:string" minOccurs="0"/>
       <xs:element name="arrivalTime" type="xs:long" minOccurs="0"/>
       <xs:element name="departureTime" type="xs:long" minOccurs="0"/>
