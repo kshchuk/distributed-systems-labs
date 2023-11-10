@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 public class Airline {
-    private UUID id;
+    private UUID airline_id;
     private String name;
     private String code;
     private String country;
