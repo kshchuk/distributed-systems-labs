@@ -47,7 +47,6 @@ public class AirlinesDomWriter {
         flightElement.setAttribute("flight_id", flight.getFlight_id().toString());
         flightElement.setAttribute("origin", flight.getOrigin());
         flightElement.setAttribute("destination", flight.getDestination());
-        flightElement.setAttribute("airline", flight.getAirline());
         flightElement.setAttribute("flightNumber", flight.getFlightNumber());
         flightElement.setAttribute("departureTime", flight.getDepartureTime().toString());
         flightElement.setAttribute("arrivalTime", flight.getArrivalTime().toString());
