@@ -13,4 +13,24 @@ public class Flight {
     private Long departureTime;
     private Long arrivalTime;
     private UUID airline_id;
+
+    public Flight() {
+        this.flight_id = UUID.randomUUID();
+        this.origin = "";
+        this.destination = "";
+        this.flightNumber = "";
+        this.departureTime = 0L;
+        this.arrivalTime = 0L;
+        this.airline_id = null;
+    }
+
+    public Flight(UUID uuid, String origin, String destination, String flightNumber, long l, long l1, UUID uuid1) {
+        this.flight_id = uuid;
+        this.origin = origin;
+        this.destination = destination;
+        this.flightNumber = flightNumber;
+        this.departureTime = l;
+        this.arrivalTime = l1;
+        this.airline_id = uuid1;
+    }
 }

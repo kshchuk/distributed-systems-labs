@@ -1,4 +1,4 @@
-package org.example.validator;
+package org.example.xml.validator;
 
 import org.xml.sax.SAXException;
 
@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ValidatorXSD {
-    private Schema schema;
+    private final Schema schema;
 
     public ValidatorXSD(String xsd) throws SAXException {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -26,8 +26,11 @@ public class ValidatorXSD {
         return true;
     }
 
+    public Schema getSchema() {
+        return schema;
+    }
+
     public void validate(String xml) throws SAXException, IOException {
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File(xml)));
     }
