@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class AirlinesDomReader {
+public class AirlinesDomReader implements Reader<Airlines> {
+    @Override
     public Airlines read(String filename, Schema schema) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder db = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

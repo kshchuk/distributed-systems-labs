@@ -16,7 +16,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 
-public class AirlinesDomWriter {
+public class AirlinesDomWriter implements Writer<Airlines> {
+    @Override
     public void write(String filename, @NotNull Airlines airlines) throws ParserConfigurationException, TransformerException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

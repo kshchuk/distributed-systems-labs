@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class Flight {
+public class Flight implements IId<UUID> {
     private UUID flight_id;
     private String origin;
     private String destination;
@@ -32,5 +32,15 @@ public class Flight {
         this.departureTime = l;
         this.arrivalTime = l1;
         this.airline_id = uuid1;
+    }
+
+    @Override
+    public UUID getId() {
+        return flight_id;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.flight_id = id;
     }
 }
