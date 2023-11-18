@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface CrudDao<T, Id> {
     T create(T entity) throws Exception;
 
-    Optional<T> read(Id id) throws Exception;
+    T read(Id id) throws Exception;
 
     void update(T entity) throws Exception;
 

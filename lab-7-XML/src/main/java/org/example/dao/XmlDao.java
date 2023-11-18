@@ -64,8 +64,14 @@ public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id>
     }
 
     @Override
-    public Optional<T> read(Id id) throws Exception {
-        return findAll().stream().filter(d->id.equals(d.getId())).findFirst();
+    public T read(Id id) throws Exception {
+        var res = findAll().stream().filter(d->id.equals(d.getId())).findFirst();
+        if (res.isPresent()) {
+            return res.get();
+        }
+        else{
+            throw new NoSuchElementException("Element with id " + id + " not found");
+        }
     }
 
     @Override
