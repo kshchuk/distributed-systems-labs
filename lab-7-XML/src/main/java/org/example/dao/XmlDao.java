@@ -49,6 +49,7 @@ public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id>
         writeFile(container);
     }
 
+    @Override
     public List<T> findAll() throws Exception {
         return toCollection(readFile());
     }

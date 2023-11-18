@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CrudDao<T, Id> {
@@ -10,4 +11,6 @@ public interface CrudDao<T, Id> {
     void update(T entity) throws Exception;
 
     void delete(Id id) throws Exception;
+    List<T> findAll() throws Exception;
+
 }
