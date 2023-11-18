@@ -5,6 +5,7 @@ import org.example.model.Airlines;
 import org.example.model.Flight;
 import org.example.xml.dom.writer.AirlinesDomWriter;
 import org.example.xml.validator.ValidatorXSD;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AirlinesDomReaderTest {
     private AirlinesDomReader reader;
     private ValidatorXSD validator;
-    private String filename = "test.xml";
+    private String filename = "src\\test\\resources\\test_reader.xml";
     private String xsd = "src\\test\\resources\\schema1.xsd";
 
     @BeforeEach
@@ -58,7 +59,7 @@ public class AirlinesDomReaderTest {
         assertEquals("FlightNumber", flight.getFlightNumber());
     }
 
-    @Test
+    @AfterEach
     public void testValidator() {
         assertTrue(validator.isValid(filename));
     }

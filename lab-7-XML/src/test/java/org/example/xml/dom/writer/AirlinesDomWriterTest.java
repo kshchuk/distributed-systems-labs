@@ -3,11 +3,14 @@ package org.example.xml.dom.writer;
 import org.example.model.Airline;
 import org.example.model.Airlines;
 import org.example.model.Flight;
+import org.example.xml.validator.ValidatorXSD;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,16 +19,20 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AirlinesDomWriterTest {
     private AirlinesDomWriter writer;
     private Airlines airlines;
-    private String filename = "test.xml";
+    private ValidatorXSD validator;
+    private String filename = "src\\test\\resources\\test_writer.xml";
+    private String xsd = "src\\test\\resources\\schema1.xsd";
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws SAXException {
         writer = new AirlinesDomWriter();
         airlines = new Airlines();
+        validator = new ValidatorXSD(xsd);
 
         ArrayList<Flight> flights = new ArrayList<>();
         flights.add(new Flight(UUID.randomUUID(), "Origin", "Destination", "FlightNumber", 100L, 200L, UUID.randomUUID()));
@@ -65,6 +72,11 @@ public class AirlinesDomWriterTest {
         assertEquals(flight.getDepartureTime().toString(), flightElement.getAttribute("departureTime"));
         assertEquals(flight.getArrivalTime().toString(), flightElement.getAttribute("arrivalTime"));
         assertEquals(flight.getAirline_id().toString(), flightElement.getAttribute("airline_id"));
+    }
+
+    @AfterEach
+    public void testValidator() {
+        assertTrue(validator.isValid(filename));
     }
 }
 
