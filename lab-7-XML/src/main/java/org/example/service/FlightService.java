@@ -1,8 +1,6 @@
 package org.example.service;
 
-import org.example.dao.AirlineDao;
 import org.example.dao.FlightDao;
-import org.example.model.Airline;
 import org.example.model.Flight;
 
 import java.util.List;
