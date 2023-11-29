@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AirlinesDomReaderTest {
     private AirlinesDomReader reader;
     private ValidatorXSD validator;
-    private String filename = "src\\test\\resources\\test_reader.xml";
-    private String xsd = "src\\test\\resources\\schema1.xsd";
+    private final String filename = "src\\test\\resources\\test_reader.xml";
+    private final String xsd = "src\\test\\resources\\schema1.xsd";
 
     @BeforeEach
     public void setUp() throws SAXException, ParserConfigurationException, TransformerException {

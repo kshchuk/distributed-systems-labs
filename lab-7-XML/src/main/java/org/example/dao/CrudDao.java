@@ -1,7 +1,6 @@
 package org.example.dao;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CrudDao<T, Id> {
     T create(T entity) throws Exception;

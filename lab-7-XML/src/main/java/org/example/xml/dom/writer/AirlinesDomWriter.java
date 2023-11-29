@@ -29,7 +29,13 @@ public class AirlinesDomWriter implements Writer<Airlines> {
         for (Airline airline : airlines.getAirlines()) {
             Element airlineElement = createAirlineElement(doc, airline);
             rootElement.appendChild(airlineElement);
-            for (Flight flight : airline.getFlights()) {
+
+            var flights = airline.getFlights();
+            if (flights == null) {
+                continue;
+            }
+
+            for (Flight flight : flights) {
                 Element flightElement = createFlightElement(doc, flight);
                 airlineElement.appendChild(flightElement);
             }
