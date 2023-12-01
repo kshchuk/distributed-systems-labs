@@ -38,6 +38,8 @@ public class DAOManager {
                 case "DATABASE_USER_PASSWORD" -> this.DATABASE_USER_PASSWORD = v;
             }
         });
+
+        this.init();
     }
 
     private static class DAOManagerSingleton {
@@ -86,14 +88,6 @@ public class DAOManager {
         statement.executeUpdate();
 
         statement = con.prepareStatement("USE " + this.DATABASE_NAME + ";");
-        statement.executeUpdate();
-
-        statement = con.prepareStatement("CREATE TABLE IF NOT EXISTS airline (" +
-                "airline_id BINARY(16) PRIMARY KEY," +
-                "name VARCHAR(255) NOT NULL," +
-                "code VARCHAR(255) NOT NULL," +
-                "country VARCHAR(255) NOT NULL" +
-                ");");
         statement.executeUpdate();
 
         statement = con.prepareStatement("CREATE TABLE IF NOT EXISTS flight (" +

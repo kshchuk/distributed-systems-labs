@@ -17,8 +17,8 @@ public class AirlineDBDao extends DBDao<Airline, UUID> implements AirlineDao {
 
     @Override
     protected void createTableIfNotExists() throws SQLException {
-        PreparedStatement statement = con.prepareStatement("CREATE TABLE IF NOT EXISTS airlines (" +
-                "airline_id UUID PRIMARY KEY," +
+        var statement = con.prepareStatement("CREATE TABLE IF NOT EXISTS airline (" +
+                "airline_id BINARY(16) PRIMARY KEY," +
                 "name VARCHAR(255) NOT NULL," +
                 "code VARCHAR(255) NOT NULL," +
                 "country VARCHAR(255) NOT NULL" +
