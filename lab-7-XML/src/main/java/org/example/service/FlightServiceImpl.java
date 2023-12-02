@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.dao.AirlineDao;
 import org.example.dao.FlightDao;
+import org.example.dao.xml.FlightXmlDao;
 import org.example.model.Flight;
 
 import java.util.List;
@@ -20,12 +21,17 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void create(Flight flight) {
         try {
-            var airline = airlineDao.read(flight.getAirline_id());
-            if (airline == null) {
-                throw new Exception("Airline with id " + flight.getAirline_id() + " not found");
+            if (this.dao.getClass().equals(FlightXmlDao.class)) {
+                var airline = airlineDao.read(flight.getAirline_id());
+                if (airline == null) {
+                    throw new Exception("Airline with id " + flight.getAirline_id() + " not found");
+                }
+                airline.getFlights().add(flight);
+                airlineDao.update(airline);
             }
-            airline.getFlights().add(flight);
-            airlineDao.update(airline);
+            else {
+                dao.create(flight);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,18 +99,24 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public void update(Flight flight) {
         try {
-            var airline = airlineDao.read(flight.getAirline_id());
-            if (airline == null) {
-                throw new Exception("Airline with id " + flight.getAirline_id() + " not found");
-            }
-            var flights = airline.getFlights();
-            for (int i = 0; i < flights.size(); i++) {
-                if (flights.get(i).getId().equals(flight.getId())) {
-                    flights.set(i, flight);
-                    break;
+            if (this.dao.getClass().equals(FlightXmlDao.class)) {
+                var airline = airlineDao.read(flight.getAirline_id());
+                if (airline == null) {
+                    throw new Exception("Airline with id " + flight.getAirline_id() + " not found");
                 }
+                var flights = airline.getFlights();
+                for (int i = 0; i < flights.size(); i++) {
+                    if (flights.get(i).getId().equals(flight.getId())) {
+                        flights.set(i, flight);
+                        break;
+                    }
+                }
+                airlineDao.update(airline);
             }
-            airlineDao.update(airline);
+            else {
+                dao.update(flight);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

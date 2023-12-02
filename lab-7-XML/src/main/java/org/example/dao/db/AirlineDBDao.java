@@ -60,7 +60,7 @@ public class AirlineDBDao extends DBDao<Airline, UUID> implements AirlineDao {
             airline.setName(resultSet.getString(2));
             airline.setCode(resultSet.getString(3));
             airline.setCountry(resultSet.getString(4));
-            // airline.setFlights(flightDao.findAllByAirline(airline.getAirline_id()));
+            airline.setFlights(flightDao.findAllByAirline(airline.getAirline_id()));
             return airline;
         }
         return null;
