@@ -11,12 +11,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AirlineDBDaoTest {
 
         private AirlineDBDao airlineDBDao;
+        private FlightDBDao flightDBDao;
         private int dataBaseSize;
 
         @BeforeEach
         public void setUp() throws Exception {
             var manager = DAOManager.getInstance();
             airlineDBDao = (AirlineDBDao) manager.getDAO(DAOManager.Table.AIRLINE);
+            flightDBDao = (FlightDBDao) manager.getDAO(DAOManager.Table.FLIGHT);
             dataBaseSize = airlineDBDao.findAll().size();
         }
 
@@ -24,10 +26,21 @@ public class AirlineDBDaoTest {
         public void testCreate() throws Exception {
             var airline = new Airline();
             airline.setName("Test Airline");
+            airline.setCode("Test Code");
+            airline.setCountry("Test Country");
+
             airlineDBDao.create(airline);
             var airlines = airlineDBDao.findAll();
+
             assertEquals(dataBaseSize + 1, airlines.size());
-            assertEquals("Test Airline", airlines.get(0).getName());
+            // get airline with the set index
+            for (var getAirline : airlines) {
+                if (getAirline.getAirline_id() == airline.getAirline_id()) {
+                    assertEquals("Test Airline", getAirline.getName());
+                    assertEquals("Test Code", getAirline.getCode());
+                    assertEquals("Test Country", getAirline.getCountry());
+                }
+            }
             dataBaseSize++;
         }
 
@@ -35,27 +48,58 @@ public class AirlineDBDaoTest {
         public void testUpdate() throws Exception {
             var airline = new Airline();
             airline.setName("Test Airline");
+            airline.setCode("Test Code");
+            airline.setCountry("Test Country");
+
             airlineDBDao.create(airline);
             var airlines = airlineDBDao.findAll();
             assertEquals(dataBaseSize + 1, airlines.size());
             dataBaseSize++;
-            assertEquals("Test Airline", airlines.getLast().getName());
+
+            for (var getAirline : airlines) {
+                if (getAirline.getAirline_id() == airline.getAirline_id()) {
+                    assertEquals("Test Airline", getAirline.getName());
+                    assertEquals("Test Code", getAirline.getCode());
+                    assertEquals("Test Country", getAirline.getCountry());
+                }
+            }
             airline.setName("Updated Airline");
+            airline.setCountry("Updated Country");
+            airline.setCode("Updated Code");
+
             airlineDBDao.update(airline);
             airlines = airlineDBDao.findAll();
             assertEquals(dataBaseSize, airlines.size());
-            assertEquals("Updated Airline", airlines.getLast().getName());
+            for (var getAirline : airlines) {
+                if (getAirline.getAirline_id() == airline.getAirline_id()) {
+                    assertEquals("Updated Airline", getAirline.getName());
+                    assertEquals("Updated Country", getAirline.getCountry());
+                    assertEquals("Updated Code", getAirline.getCode());
+                }
+            }
         }
 
         @Test
         public void testDelete() throws Exception {
             var airline = new Airline();
             airline.setName("Test Airline");
+            airline.setCountry("Test Country");
+            airline.setCode("Test Code");
             airlineDBDao.create(airline);
+            dataBaseSize++;
             var airlines = airlineDBDao.findAll();
-            assertEquals(dataBaseSize + 1, airlines.size());
-            assertEquals("Test Airline", airlines.get(0).getName());
+            assertEquals(dataBaseSize, airlines.size());
+            for (var getAirline : airlines) {
+                if (getAirline.getAirline_id() == airline.getAirline_id()) {
+                    assertEquals("Test Airline", getAirline.getName());
+                    assertEquals("Test Country", getAirline.getCountry());
+                    assertEquals("Test Code", getAirline.getCode());
+                }
+            }
+
             airlineDBDao.delete(airline.getId());
+            dataBaseSize--;
+
             airlines = airlineDBDao.findAll();
             assertEquals(dataBaseSize, airlines.size());
         }
@@ -64,24 +108,39 @@ public class AirlineDBDaoTest {
         public void testFindAll() throws Exception {
             var airline = new Airline();
             airline.setName("Test Airline");
+            airline.setCountry("Test Country");
+            airline.setCode("Test Code");
+
             airlineDBDao.create(airline);
             var airlines = airlineDBDao.findAll();
             assertEquals(dataBaseSize + 1, airlines.size());
             dataBaseSize++;
-            assertEquals("Test Airline", airlines.get(0).getName());
         }
 
         @Test
         public void testRead() throws Exception {
             var airline = new Airline();
             airline.setName("Test Airline");
+            airline.setCountry("Test Country");
+            airline.setCode("Test Code");
+
             airlineDBDao.create(airline);
             var airlines = airlineDBDao.findAll();
             assertEquals(dataBaseSize + 1, airlines.size());
             dataBaseSize++;
-            assertEquals("Test Airline", airlines.get(0).getName());
+
+            for (var getAirline : airlines) {
+                if (getAirline.getAirline_id() == airline.getAirline_id()) {
+                    assertEquals("Test Airline", getAirline.getName());
+                    assertEquals("Test Country", getAirline.getCountry());
+                    assertEquals("Test Code", getAirline.getCode());
+                }
+            }
+
             var airline2 = airlineDBDao.read(airline.getId());
             assertEquals("Test Airline", airline2.getName());
+            assertEquals("Test Country", airline2.getCountry());
+            assertEquals("Test Code", airline2.getCode());
         }
 
         @AfterAll

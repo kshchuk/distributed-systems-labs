@@ -74,6 +74,10 @@ public class AirlineDBDao extends DBDao<Airline, UUID> implements AirlineDao {
         statement.executeUpdate();
 
         for (var flight : entity.getFlights()) {
+            if (flightDao.read(flight.getFlight_id()) == null) {
+                flightDao.create(flight);
+                continue;
+            }
             flight.setAirline_id(entity.getAirline_id());
             flightDao.update(flight);
         }
