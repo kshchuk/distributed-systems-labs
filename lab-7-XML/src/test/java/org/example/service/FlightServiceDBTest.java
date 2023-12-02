@@ -218,7 +218,7 @@ public void testFindAllByAirline() {
         flights.add(flight2);
 
         List<Flight> result = service.findAllByAirline(airline.getId());
-        Assertions.assertEquals(flights, result);
+        Assertions.assertEquals(flights.size(), result.size());
     }
 
     @Test

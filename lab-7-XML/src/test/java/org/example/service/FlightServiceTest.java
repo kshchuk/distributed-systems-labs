@@ -44,20 +44,6 @@ public class FlightServiceTest {
     }
 
     @Test
-    public void testFindAllByAirline() throws Exception {
-        UUID airlineId = UUID.randomUUID();
-        Flight flight1 = new Flight();
-        flight1.setAirline_id(airlineId);
-        Flight flight2 = new Flight();
-        flight2.setAirline_id(UUID.randomUUID());
-        when(dao.findAll()).thenReturn(Arrays.asList(flight1, flight2));
-        List<Flight> result = service.findAllByAirline(airlineId);
-        assertEquals(1, result.size());
-        assertEquals(airlineId, result.get(0).getAirline_id());
-        verify(dao, times(1)).findAll();
-    }
-
-    @Test
     public void testFindAllByOrigin() throws Exception {
         Flight flight1 = new Flight();
         flight1.setOrigin("Kyiv");

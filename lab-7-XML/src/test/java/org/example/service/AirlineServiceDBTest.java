@@ -108,7 +108,9 @@ public class AirlineServiceDBTest {
         airline1.setId(UUID.randomUUID());
         airline1.setName("Test Airline 1");
         airline1.setCode("TA1");
-        airline1.setCountry("Test Country 1");
+        // random country
+        var country = UUID.randomUUID().toString();
+        airline1.setCountry(country);
 
         Airline airline2 = new Airline();
         airline2.setId(UUID.randomUUID());
@@ -119,7 +121,7 @@ public class AirlineServiceDBTest {
         service.create(airline1);
         service.create(airline2);
 
-        assertEquals(1, service.findAllByCountry("Test Country 1").size());
+        assertEquals(1, service.findAllByCountry(country).size());
     }
 
     @AfterEach

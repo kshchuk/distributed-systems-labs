@@ -2,7 +2,6 @@ package org.example.dao;
 
 import org.example.dao.db.AirlineDBDao;
 import org.example.dao.db.DAOManager;
-import org.example.dao.db.FlightDBDao;
 import org.example.model.Airline;
 import org.junit.jupiter.api.*;
 

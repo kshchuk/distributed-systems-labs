@@ -39,15 +39,14 @@ public class FlightDBDaoTest {
             flight.setAirline_id(Airline.getId());
             flightDBDao.create(flight);
             dataBaseSize++;
-            var flights = flightDBDao.findAll();
-            assertEquals(dataBaseSize, flights.size());
-            var getFlight = flights.getLast();
-            assertEquals("Test Origin", getFlight.getOrigin());
-            assertEquals("Test Destination", getFlight.getDestination());
-            assertEquals("Test Flight Number", getFlight.getFlightNumber());
-            assertEquals(0L, getFlight.getDepartureTime());
-            assertEquals(0L, getFlight.getArrivalTime());
-            assertEquals(Airline.getId(), getFlight.getAirline_id());
+            var readFlight = flightDBDao.read(flight.getId());
+            assertEquals(flight.getId(), readFlight.getId());
+            assertEquals(flight.getOrigin(), readFlight.getOrigin());
+            assertEquals(flight.getDestination(), readFlight.getDestination());
+            assertEquals(flight.getFlightNumber(), readFlight.getFlightNumber());
+            assertEquals(flight.getDepartureTime() / 1000, readFlight.getDepartureTime() / 1000);
+            assertEquals(flight.getArrivalTime() / 1000, readFlight.getArrivalTime() / 1000);
+            assertEquals(flight.getAirline_id(), readFlight.getAirline_id());
         }
 
         @Test
