@@ -1,5 +1,7 @@
-package org.example.dao;
+package org.example.dao.db;
 
+import org.example.dao.FlightDao;
+import org.example.dao.db.DBDao;
 import org.example.model.Flight;
 
 import java.sql.Connection;
@@ -7,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-public class FlightDBDao extends DBDao<Flight, UUID> implements FlightDao{
+public class FlightDBDao extends DBDao<Flight, UUID> implements FlightDao {
     protected FlightDBDao(Connection con, String tableName) throws SQLException {
         super(con, tableName);
     }

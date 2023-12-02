@@ -1,9 +1,9 @@
-package org.example.dao;
+package org.example.dao.db;
 
+import org.example.dao.AirlineDao;
 import org.example.model.Airline;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

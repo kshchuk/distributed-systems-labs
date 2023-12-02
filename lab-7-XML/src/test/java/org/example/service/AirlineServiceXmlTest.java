@@ -1,7 +1,7 @@
 package org.example.service;
 
 import org.example.dao.AirlineDao;
-import org.example.dao.AirlineXmlDao;
+import org.example.dao.xml.AirlineXmlDao;
 import org.example.model.Airline;
 import org.example.model.Airlines;
 import org.example.xml.dom.reader.AirlinesDomReader;

@@ -1,5 +1,6 @@
-package org.example.dao;
+package org.example.dao.xml;
 
+import org.example.dao.CrudDao;
 import org.example.model.IId;
 import org.example.xml.dom.reader.Reader;
 import org.example.xml.dom.writer.Writer;
@@ -15,7 +16,7 @@ import java.util.function.Function;
  * @param <T> - target object generic
  * @param <Id> - id generic
  */
-public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id>{
+public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id> {
     protected final String inputFileXML;
     protected final Reader<C> reader;
     protected final Writer<C> writer;

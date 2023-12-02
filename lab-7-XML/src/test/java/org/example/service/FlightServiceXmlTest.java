@@ -1,9 +1,9 @@
 package org.example.service;
 
 import org.example.dao.AirlineDao;
-import org.example.dao.AirlineXmlDao;
+import org.example.dao.xml.AirlineXmlDao;
 import org.example.dao.FlightDao;
-import org.example.dao.FlightXmlDao;
+import org.example.dao.xml.FlightXmlDao;
 import org.example.model.Airline;
 import org.example.model.Airlines;
 import org.example.model.Flight;
@@ -22,7 +22,6 @@ import javax.xml.validation.Schema;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 

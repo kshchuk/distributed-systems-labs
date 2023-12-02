@@ -1,4 +1,6 @@
-package org.example.dao;
+package org.example.dao.db;
+
+import org.example.dao.CrudDao;
 
 import java.sql. *;
 

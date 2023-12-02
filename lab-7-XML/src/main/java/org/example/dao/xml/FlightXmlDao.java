@@ -1,5 +1,6 @@
-package org.example.dao;
+package org.example.dao.xml;
 
+import org.example.dao.FlightDao;
 import org.example.model.Airlines;
 import org.example.model.Flight;
 import org.example.xml.dom.reader.Reader;

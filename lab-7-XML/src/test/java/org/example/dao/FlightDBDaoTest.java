@@ -1,10 +1,11 @@
 package org.example.dao;
 
+import org.example.dao.db.AirlineDBDao;
+import org.example.dao.db.DAOManager;
+import org.example.dao.db.FlightDBDao;
 import org.example.model.Airline;
 import org.example.model.Flight;
 import org.junit.jupiter.api.*;
-
-import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
