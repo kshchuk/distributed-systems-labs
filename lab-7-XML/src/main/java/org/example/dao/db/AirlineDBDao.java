@@ -37,6 +37,9 @@ public class AirlineDBDao extends DBDao<Airline, UUID> implements AirlineDao {
 
         statement.executeUpdate();
 
+        if (entity.getFlights() == null) {
+            entity.setFlights(new ArrayList<>());
+        }
         for (var flight : entity.getFlights()) {
             flight.setAirline_id(entity.getAirline_id());
             flightDao.create(flight);
@@ -73,6 +76,9 @@ public class AirlineDBDao extends DBDao<Airline, UUID> implements AirlineDao {
 
         statement.executeUpdate();
 
+        if (entity.getFlights() == null) {
+            entity.setFlights(new ArrayList<>());
+        }
         for (var flight : entity.getFlights()) {
             if (flightDao.read(flight.getFlight_id()) == null) {
                 flightDao.create(flight);

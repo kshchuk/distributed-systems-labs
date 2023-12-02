@@ -12,14 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AirlineDBDaoTest {
 
         private AirlineDBDao airlineDBDao;
-        private FlightDBDao flightDBDao;
         private int dataBaseSize;
 
         @BeforeEach
         public void setUp() throws Exception {
             var manager = DAOManager.getInstance();
             airlineDBDao = (AirlineDBDao) manager.getDAO(DAOManager.Table.AIRLINE);
-            flightDBDao = (FlightDBDao) manager.getDAO(DAOManager.Table.FLIGHT);
             dataBaseSize = airlineDBDao.findAll().size();
         }
 
