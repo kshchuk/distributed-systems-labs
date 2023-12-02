@@ -74,7 +74,7 @@ public class DAOManager {
 
         return switch (t) {
             case AIRLINE -> new AirlineDBDao(this.con, "airline");
-            // case FLIGHT -> new FlightDao(this.con, "flight") {);
+            case FLIGHT -> new FlightDBDao(this.con, "flight");
             default -> throw new SQLException("Trying to link to an unexistant table.");
         };
 
@@ -88,18 +88,6 @@ public class DAOManager {
         statement.executeUpdate();
 
         statement = con.prepareStatement("USE " + this.DATABASE_NAME + ";");
-        statement.executeUpdate();
-
-        statement = con.prepareStatement("CREATE TABLE IF NOT EXISTS flight (" +
-                "flight_id BINARY(16) PRIMARY KEY," +
-                "airline_id BINARY(16) NOT NULL," +
-                "departure VARCHAR(255) NOT NULL," +
-                "arrival VARCHAR(255) NOT NULL," +
-                "departure_time DATETIME NOT NULL," +
-                "arrival_time DATETIME NOT NULL," +
-                "price DOUBLE NOT NULL," +
-                "FOREIGN KEY (airline_id) REFERENCES airline(airline_id)" +
-                ");");
         statement.executeUpdate();
     }
 }
