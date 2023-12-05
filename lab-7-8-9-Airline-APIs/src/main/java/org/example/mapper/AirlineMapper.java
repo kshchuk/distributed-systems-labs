@@ -3,7 +3,10 @@ package org.example.mapper;
 import org.example.dto.AirlineDto;
 import org.example.model.Airline;
 
-public class AirlineMapper implements Mapper<Airline, AirlineDto> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class AirlineMapper extends Mapper<Airline, AirlineDto> {
     private final FlightMapper flightMapper = new FlightMapper();
     @Override
     public AirlineDto toDTO(Airline entity) {
@@ -23,8 +26,13 @@ public class AirlineMapper implements Mapper<Airline, AirlineDto> {
         airline.setName(airlineDto.getName());
         airline.setCode(airlineDto.getCode());
         airline.setCountry(airlineDto.getCountry());
-        for (int i = 0; i < airlineDto.getFlights().size(); i++) {
-            airline.getFlights().add(flightMapper.toEntity(airlineDto.getFlights().get(i)));
+
+        if (airlineDto.getFlights() == null) {
+            airlineDto.setFlights(new ArrayList<>());
+        } else {
+            for (int i = 0; i < airlineDto.getFlights().size(); i++) {
+                airline.getFlights().add(flightMapper.toEntity(airlineDto.getFlights().get(i)));
+            }
         }
         return airline;
     }
