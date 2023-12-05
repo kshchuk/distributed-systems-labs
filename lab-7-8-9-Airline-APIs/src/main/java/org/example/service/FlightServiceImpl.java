@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class FlightServiceImpl implements FlightService {
     private FlightDao dao;
-    private AirlineDao airlineDao;
+    private final AirlineDao airlineDao;
 
     public FlightServiceImpl(FlightDao dao, AirlineDao airlineDao) {
         this.dao = dao;

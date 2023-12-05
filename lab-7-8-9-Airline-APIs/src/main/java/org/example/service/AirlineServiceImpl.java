@@ -46,6 +46,18 @@ public class AirlineServiceImpl implements AirlineService {
     }
 
     @Override
+    public List<Airline> findByName(String name) {
+        try {
+            return dao.findAll().stream()
+                    .filter(airline -> airline.getName().equals(name))
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public boolean delete(UUID id) {
         try {
             dao.delete(id);
