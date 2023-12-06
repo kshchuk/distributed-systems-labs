@@ -175,8 +175,11 @@ public class AirlineServiceXmlTest {
     }
 
     @Test
-    public void testGetNull() {
-        assertNull(service.get(UUID.randomUUID()));
+    public void testGetNull() throws Exception {
+        // expect exception
+        assertThrows(RuntimeException.class, () -> {
+            service.get(UUID.randomUUID());
+        });
     }
 
     @AfterEach

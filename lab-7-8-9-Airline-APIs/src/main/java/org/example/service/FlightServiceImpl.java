@@ -6,6 +6,7 @@ import org.example.dao.xml.FlightXmlDao;
 import org.example.model.Flight;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class FlightServiceImpl implements FlightService {
                 dao.create(flight);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -42,8 +43,7 @@ public class FlightServiceImpl implements FlightService {
         try {
             return dao.findAll();
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -56,8 +56,7 @@ public class FlightServiceImpl implements FlightService {
             }
             return airline.getFlights();
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new NoSuchElementException(e);
         }
     }
 
@@ -68,8 +67,7 @@ public class FlightServiceImpl implements FlightService {
                     .filter(flight -> flight.getOrigin().equals(origin))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -80,8 +78,7 @@ public class FlightServiceImpl implements FlightService {
                     .filter(flight -> flight.getDestination().equals(destination))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -91,8 +88,7 @@ public class FlightServiceImpl implements FlightService {
             dao.delete(id);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            throw new NoSuchElementException(e.getMessage());
         }
     }
 
@@ -118,7 +114,7 @@ public class FlightServiceImpl implements FlightService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new NoSuchElementException(e.getMessage());
         }
     }
 
@@ -127,8 +123,7 @@ public class FlightServiceImpl implements FlightService {
         try {
             return dao.read(id) != null;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -142,8 +137,7 @@ public class FlightServiceImpl implements FlightService {
         try {
             return dao.read(id);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }

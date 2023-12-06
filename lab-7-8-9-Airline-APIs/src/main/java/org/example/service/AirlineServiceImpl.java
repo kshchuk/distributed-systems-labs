@@ -4,6 +4,7 @@ import org.example.dao.AirlineDao;
 import org.example.model.Airline;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class AirlineServiceImpl implements AirlineService {
         try {
             dao.create(airline);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -28,8 +29,7 @@ public class AirlineServiceImpl implements AirlineService {
         try {
             return dao.findAll();
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -40,8 +40,7 @@ public class AirlineServiceImpl implements AirlineService {
                     .filter(airline -> airline.getCountry().equals(country))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -52,8 +51,7 @@ public class AirlineServiceImpl implements AirlineService {
                     .filter(airline -> airline.getName().equals(name))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 
@@ -63,8 +61,7 @@ public class AirlineServiceImpl implements AirlineService {
             dao.delete(id);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            throw new NoSuchElementException(e.getMessage());
         }
     }
 
@@ -73,7 +70,7 @@ public class AirlineServiceImpl implements AirlineService {
         try {
             dao.update(airline);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new NoSuchElementException(e.getMessage());
         }
     }
 
@@ -82,8 +79,7 @@ public class AirlineServiceImpl implements AirlineService {
         try {
             return dao.read(id) != null;
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
@@ -97,8 +93,7 @@ public class AirlineServiceImpl implements AirlineService {
         try {
             return dao.read(id);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
     }
 }

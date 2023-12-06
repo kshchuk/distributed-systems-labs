@@ -87,10 +87,7 @@ public class FlightServiceXmlTest {
 
         Flight flight1 = new Flight();
         flight1.setAirline_id(airline.getId());
-        Flight flight2 = new Flight();
-        flight2.setAirline_id(UUID.randomUUID());
         service.create(flight1);
-        service.create(flight2);
         List<Flight> result = service.findAllByAirline(airline.getId());
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(airline.getId(), result.get(0).getAirline_id());

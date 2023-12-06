@@ -14,11 +14,11 @@ public class FlightController extends BaseController<Flight, FlightDto, UUID> {
         super(service, mapper);
         this.airlineService = airlineService;
     }
-    public List<FlightDto> findAllByAirline(UUID airlineId) {
+    public List<FlightDto> findAllByAirline(UUID airlineId) throws NoSuchElementException {
         return ((FlightService)service).findAllByAirline(airlineId).stream().map(mapper::toDTO).toList();
     }
 
-    public List<FlightDto> findAllByAirline(String airlineName) {
+    public List<FlightDto> findAllByAirline(String airlineName) throws NoSuchElementException {
         return ((FlightService)service).findAllByAirline(airlineService.findByName(airlineName).get(0).getId()).stream().map(mapper::toDTO).toList();
     }
 }
