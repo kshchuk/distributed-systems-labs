@@ -16,12 +16,8 @@ public class Request implements java.io.Serializable {
         CONNECT
     }
 
-    public enum RequestType {
-        AIRLINE,
-        FLIGHT
-    }
 
     private RequestMethod method;
-    private RequestType type;
+    private String path;
     private Object body;
 }
