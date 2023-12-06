@@ -39,12 +39,12 @@ public class RequestHandler {
             case POST:
                 if (request.getPath().equals("/airline")) {
                     var airlineDto = (org.example.dto.AirlineDto) request.getBody();
-                    this.airlineController.create(airlineDto);
-                    return new Response(Response.ResponseStatus.SUCCESS, null);
+                    var dto = this.airlineController.create(airlineDto);
+                    return new Response(Response.ResponseStatus.SUCCESS, dto);
                 } else if (request.getPath().equals("/flight")) {
                     var flightDto = (org.example.dto.FlightDto) request.getBody();
-                    this.flightController.create(flightDto);
-                    return new Response(Response.ResponseStatus.SUCCESS, null);
+                    var dto = this.flightController.create(flightDto);
+                    return new Response(Response.ResponseStatus.SUCCESS, dto);
                 } else {
                     return new Response(Response.ResponseStatus.ERROR, "Not found");
                 }

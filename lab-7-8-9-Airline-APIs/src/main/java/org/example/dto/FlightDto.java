@@ -1,12 +1,13 @@
 package org.example.dto;
 
 import lombok.Data;
+import org.example.model.IId;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 @Data
-public class FlightDto implements java.io.Serializable {
+public class FlightDto implements java.io.Serializable, IId<UUID> {
     @Nullable
     private UUID flightId = null;
     private String origin;
@@ -19,7 +20,7 @@ public class FlightDto implements java.io.Serializable {
     @Override
     public String toString() {
         return "FlightDto{" +
-                "flightId=" + (flightId != null ? flightId.toString()  : " ") +
+                "flightId='" + (flightId != null ? flightId + "'"  : " ") +
                 "origin='" + origin + '\'' +
                 ", destination='" + destination + '\'' +
                 ", flightNumber='" + flightNumber + '\'' +
@@ -27,5 +28,15 @@ public class FlightDto implements java.io.Serializable {
                 ", departureTime=" + departureTime +
                 ", arrivalTime=" + arrivalTime +
                 '}';
+    }
+
+    @Override
+    public UUID getId() {
+        return flightId;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.flightId = id;
     }
 }

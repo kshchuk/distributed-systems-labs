@@ -24,7 +24,7 @@ public class ClientListenThread extends Thread {
                 switch (response.getStatus()) {
                     case SUCCESS:
                         if (response.getBody() != null) {
-                            System.out.println("Server response: " + response.getBody());
+                            System.out.println("Server response: " +  response.getStatus() + ": " + response.getBody());
                         } else {
                             System.out.println("Server response: " + response.getStatus());
                         }

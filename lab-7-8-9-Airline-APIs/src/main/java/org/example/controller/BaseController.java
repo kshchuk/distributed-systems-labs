@@ -1,11 +1,12 @@
 package org.example.controller;
 
 import org.example.mapper.Mapper;
+import org.example.model.IId;
 import org.example.service.Service;
 
 import java.util.NoSuchElementException;
 
-public abstract class BaseController<E, DTO, Id> {
+public abstract class BaseController<E extends IId<Id>, DTO extends IId<Id>, Id> {
     protected final Service<E, Id> service;
     protected final Mapper<E, DTO> mapper;
 
@@ -14,8 +15,11 @@ public abstract class BaseController<E, DTO, Id> {
         this.mapper = mapper;
     }
 
-    public void create(DTO dto) throws Exception{
-        service.create(mapper.toEntity(dto));
+    public DTO create(DTO dto) throws Exception{
+        E entity = mapper.toEntity(dto);
+        service.create(entity);
+        dto.setId(entity.getId());
+        return dto;
     }
 
     public DTO get(Id id) throws NoSuchElementException {
