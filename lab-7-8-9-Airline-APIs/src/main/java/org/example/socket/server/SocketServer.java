@@ -1,6 +1,8 @@
 package org.example.socket.server;
 
 import org.example.controller.AirlineController;
+import org.example.controller.ControllerFactory;
+import org.example.controller.ControllerFactoryImpl;
 import org.example.controller.FlightController;
 import org.example.dao.AirlineDao;
 import org.example.dao.FlightDao;
@@ -60,19 +62,9 @@ public class SocketServer {
     }
 
     public static void main(String[] args) throws Exception {
-        var daoManager = DAOManager.getInstance();
-
-        FlightDao flightDao = (FlightDao) daoManager.getDAO(DAOManager.Table.FLIGHT);
-        AirlineDao airlineDao = (AirlineDao) daoManager.getDAO(DAOManager.Table.AIRLINE);
-
-        FlightService flightService = new FlightServiceImpl(flightDao, airlineDao);
-        AirlineService airlineService = new AirlineServiceImpl(airlineDao);
-
-        FlightMapper flightMapper = new FlightMapper();
-        AirlineMapper airlineMapper = new AirlineMapper();
-
-        FlightController flightController = new FlightController(flightService, flightMapper, airlineService);
-        AirlineController airlineController = new AirlineController(airlineService, airlineMapper);
+        ControllerFactory controllerFactory = new ControllerFactoryImpl();
+        FlightController flightController = controllerFactory.getFlightController();
+        AirlineController airlineController = controllerFactory.getAirlineController();
 
         SocketServer server = new SocketServer(5000, flightController, airlineController);
         server.start();
