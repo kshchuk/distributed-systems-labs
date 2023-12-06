@@ -1,17 +1,16 @@
-package org.example.server.socket;
+package org.example.socket.server;
 
 import org.example.controller.AirlineController;
 import org.example.controller.FlightController;
-import org.example.dto.Response;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 //This is a TCP protocol connection based server.
 public class SocketServer {
+    public FlightController flightController;
+    public AirlineController airlineController;
 
     public ServerSocket socket;
     public int port;
@@ -22,6 +21,8 @@ public class SocketServer {
     public SocketServer(int port, FlightController flightController, AirlineController airlineController) {
         try {
             this.port = port;
+            this.flightController = flightController;
+            this.airlineController = airlineController;
             this.socket = new ServerSocket(this.port);
             this.listenConnectionRequestThread = new ListenConnectionRequestThread(this);
             removingControlThread = new ClientRemovingControlThread(this);

@@ -1,11 +1,10 @@
-package org.example.server.socket;
+package org.example.socket.server;
 
 import org.example.controller.AirlineController;
 import org.example.controller.FlightController;
 import org.example.dto.Request;
-import org.example.server.handler.RequestHandler;
+import org.example.socket.server.handler.RequestHandler;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,16 +13,12 @@ import java.util.logging.Logger;
 // going to do with this data and then recontinue to the listening the input stream. This listening never ends until the sclient connection
 // is lost...
 public class ClientListenThread extends Thread {
-    FlightController flightController;
-    AirlineController airlineController;
     RequestHandler requestHandler;
     SClient client;
 
     public ClientListenThread(SClient client, FlightController flightController, AirlineController airlineController) {
         this.client = client;
-        this.flightController = flightController;
-        this.airlineController = airlineController;
-        this.requestHandler = new RequestHandler(this.airlineController, this.flightController);
+        this.requestHandler = new RequestHandler(airlineController, flightController);
     }
 
     @Override

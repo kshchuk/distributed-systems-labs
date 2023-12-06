@@ -1,4 +1,4 @@
-package org.example.server.socket;
+package org.example.socket.server;
 
 import org.example.controller.AirlineController;
 import org.example.controller.FlightController;
@@ -29,6 +29,7 @@ public class SClient {
             Logger.getLogger(SClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void Send(Object msg)
     {
         try {

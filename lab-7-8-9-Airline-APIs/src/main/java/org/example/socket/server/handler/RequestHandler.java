@@ -1,4 +1,4 @@
-package org.example.server.handler;
+package org.example.socket.server.handler;
 
 import org.example.controller.AirlineController;
 import org.example.controller.FlightController;

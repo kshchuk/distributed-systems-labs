@@ -1,4 +1,4 @@
-package org.example.server.socket;
+package org.example.socket.server;
 
 
 // The purpose of this class is control the clients anytime.If any client

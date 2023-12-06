@@ -1,10 +1,8 @@
-package org.example.server.socket;
+package org.example.socket.server;
 
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 
@@ -24,7 +22,7 @@ public class ListenConnectionRequestThread extends Thread {
         while (!this.server.socket.isClosed()) {
             try {
                 Socket nSocket = this.server.socket.accept();
-                SClient nClient = new SClient(nSocket);
+                SClient nClient = new SClient(nSocket, this.server.flightController, this.server.airlineController);
                 nClient.Listen();
                 SocketServer.clients.add(nClient);
 
