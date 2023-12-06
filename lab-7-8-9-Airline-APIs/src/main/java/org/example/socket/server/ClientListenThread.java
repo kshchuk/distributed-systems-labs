@@ -26,7 +26,7 @@ public class ClientListenThread extends Thread {
         while (!this.client.socket.isClosed()) {
             try {
                 Request request = (Request) (this.client.cInput.readObject());
-                System.out.println("Request received from client: " + request);
+                Logger.getLogger(ClientListenThread.class.getName()).log(Level.INFO, "Request received: " + request.toString());
                 var response = this.requestHandler.handle(request);
                 this.client.Send(response);
             } catch (Exception e) {

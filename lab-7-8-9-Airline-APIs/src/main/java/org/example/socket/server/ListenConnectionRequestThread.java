@@ -3,8 +3,7 @@ package org.example.socket.server;
 
 import java.io.IOException;
 import java.net.Socket;
-
-
+import java.util.logging.Logger;
 
 
 // This thread called by server directly when the server opens and never closes. The purpose of this
@@ -25,9 +24,10 @@ public class ListenConnectionRequestThread extends Thread {
                 SClient nClient = new SClient(nSocket, this.server.flightController, this.server.airlineController);
                 nClient.Listen();
                 SocketServer.clients.add(nClient);
+                Logger.getLogger(ListenConnectionRequestThread.class.getName()).info("New client connected to the server.");
 
             } catch (IOException ex) {
-                System.out.println("There is an error occurred when the new client being accepted.");
+                Logger.getLogger(ListenConnectionRequestThread.class.getName()).info("Client could not be connected to the server.");
             }
         }
     }

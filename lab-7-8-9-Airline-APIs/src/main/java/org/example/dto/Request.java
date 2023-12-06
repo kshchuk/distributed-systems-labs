@@ -1,8 +1,10 @@
 package org.example.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Request implements java.io.Serializable {
     public enum RequestMethod {
         GET,

@@ -19,6 +19,9 @@ public class FlightMapper extends Mapper<Flight, FlightDto> {
     @Override
     public Flight toEntity(FlightDto dto) {
         Flight entity = new Flight();
+        if (dto.getFlightId() != null) {
+            entity.setId(dto.getFlightId());
+        }
         entity.setOrigin(dto.getOrigin());
         entity.setDestination(dto.getDestination());
         entity.setFlightNumber(dto.getFlightNumber());

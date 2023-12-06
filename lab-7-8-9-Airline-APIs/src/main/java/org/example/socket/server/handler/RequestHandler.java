@@ -19,41 +19,35 @@ public class RequestHandler {
     public Response handle(Request request) throws Exception {
         switch (request.getMethod()) {
             case GET:
-                return switch (request.getPath()) {
-                    case "/airline" -> new Response(Response.ResponseStatus.SUCCESS, airlineController.findAll());
-                    case "/airline/{airlineId}/flights" -> {
-                        var airlineId = UUID.fromString(request.getPath().split("/")[2]);
-                        yield new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirline(airlineId));
-                    }
-                    case "/airline/name/{airlineName}/flights" -> {
-                        var airlineName = request.getPath().split("/")[4];
-                        yield new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirline(airlineName));
-                    }
-                    case "/flight/{flightId}" -> {
-                        var flightId = UUID.fromString(request.getPath().split("/")[2]);
-                        yield new Response(Response.ResponseStatus.SUCCESS, flightController.get(flightId));
-                    }
-                    case "/airline/{airlineId}" -> {
-                        var airlineId2 = UUID.fromString(request.getPath().split("/")[2]);
-                        yield new Response(Response.ResponseStatus.SUCCESS, airlineController.get(airlineId2));
-                    }
-                    default -> new Response(Response.ResponseStatus.ERROR, "Not found");
-                };
-            case POST:
-                switch (request.getPath()) {
-                    case "/airline" -> {
-                        var airlineDto = (org.example.dto.AirlineDto) request.getBody();
-                        this.airlineController.create(airlineDto);
-                        return new Response(Response.ResponseStatus.SUCCESS, null);
-                    }
-                    case "/flight" -> {
-                        var flightDto = (org.example.dto.FlightDto) request.getBody();
-                        this.flightController.create(flightDto);
-                        return new Response(Response.ResponseStatus.SUCCESS, null);
-                    }
-                    default -> new Response(Response.ResponseStatus.ERROR, "Not found");
+                if (request.getPath().equals("/airline")) {
+                    return new Response(Response.ResponseStatus.SUCCESS, airlineController.findAll());
+                } else if (request.getPath().startsWith("/airline/name/") && request.getPath().endsWith("/flights")) {
+                    var airlineName = request.getPath().split("/")[3];
+                    return new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirline(airlineName));
+                } else if (request.getPath().startsWith("/airline/") && request.getPath().endsWith("/flights")) {
+                    var airlineId = UUID.fromString(request.getPath().split("/")[2]);
+                    return new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirline(airlineId));
+                } else if (request.getPath().startsWith("/flight/")) {
+                    var flightId = UUID.fromString(request.getPath().split("/")[2]);
+                    return new Response(Response.ResponseStatus.SUCCESS, flightController.get(flightId));
+                } else if (request.getPath().startsWith("/airline/")) {
+                    var airlineId2 = UUID.fromString(request.getPath().split("/")[2]);
+                    return new Response(Response.ResponseStatus.SUCCESS, airlineController.get(airlineId2));
+                } else {
+                    return new Response(Response.ResponseStatus.ERROR, "Not found");
                 }
-                break;
+            case POST:
+                if (request.getPath().equals("/airline")) {
+                    var airlineDto = (org.example.dto.AirlineDto) request.getBody();
+                    this.airlineController.create(airlineDto);
+                    return new Response(Response.ResponseStatus.SUCCESS, null);
+                } else if (request.getPath().equals("/flight")) {
+                    var flightDto = (org.example.dto.FlightDto) request.getBody();
+                    this.flightController.create(flightDto);
+                    return new Response(Response.ResponseStatus.SUCCESS, null);
+                } else {
+                    return new Response(Response.ResponseStatus.ERROR, "Not found");
+                }
             case PUT:
                 switch (request.getPath()) {
                     case "/airline" -> {
@@ -70,20 +64,17 @@ public class RequestHandler {
                 }
                 break;
             case DELETE:
-                switch (request.getPath()) {
-                    case "/airline/{airlineId}" -> {
-                        var airlineId = UUID.fromString(request.getPath().split("/")[2]);
-                        this.airlineController.delete(airlineId);
-                        return new Response(Response.ResponseStatus.SUCCESS, null);
-                    }
-                    case "/flight/{flightId}" -> {
-                        var flightId = UUID.fromString(request.getPath().split("/")[2]);
-                        this.flightController.delete(flightId);
-                        return new Response(Response.ResponseStatus.SUCCESS, null);
-                    }
-                    default -> new Response(Response.ResponseStatus.ERROR, "Not found");
+                if (request.getPath().startsWith("/airline/")) {
+                    var airlineId = UUID.fromString(request.getPath().split("/")[2]);
+                    this.airlineController.delete(airlineId);
+                    return new Response(Response.ResponseStatus.SUCCESS, null);
+                } else if (request.getPath().startsWith("/flight/")) {
+                    var flightId = UUID.fromString(request.getPath().split("/")[2]);
+                    this.flightController.delete(flightId);
+                    return new Response(Response.ResponseStatus.SUCCESS, null);
+                } else {
+                    return new Response(Response.ResponseStatus.ERROR, "Not found");
                 }
-                break;
             case PATCH:
                 break;
             case HEAD:
