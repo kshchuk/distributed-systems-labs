@@ -7,6 +7,7 @@ import org.example.xml.dom.writer.Writer;
 
 import javax.xml.validation.Schema;
 import java.util.*;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -20,6 +21,7 @@ public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id>
     protected final String inputFileXML;
     protected final Reader<C> reader;
     protected final Writer<C> writer;
+    private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private final Schema schema;
     public XmlDao(String inputFileXML, Reader<C> reader, Writer<C> writer, Schema schema) {
         this.inputFileXML = inputFileXML;
@@ -28,31 +30,61 @@ public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id>
         this.schema = schema;
     }
     protected void writeFile(C parsed) throws Exception {
-        writer.write(inputFileXML, parsed);
+        try {
+            lock.writeLock().lock();
+            writer.write(inputFileXML, parsed);
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     protected C readFile() throws Exception {
-        return reader.read(inputFileXML, schema);
+        C result = null;
+        try {
+            lock.readLock().lock();
+            result =  reader.read(inputFileXML, schema);
+        } finally {
+            lock.readLock().unlock();
+        }
+        return result;
     }
 
     protected abstract List<T> toCollection(C container);
 
     protected  <V> V withReadWrite(Function<C, V> function) throws Exception {
-        C container = readFile();
-        V result =  function.apply(container);
-        writeFile(container);
+        V result = null;
+        try {
+            lock.writeLock().lock();
+            C container = readFile();
+            result =  function.apply(container);
+            writeFile(container);
+        } finally {
+            lock.writeLock().unlock();
+        }
         return result;
     }
 
     private void withReadWrite(Consumer<C> consumer) throws Exception {
-        C container = readFile();
-        consumer.accept(container);
-        writeFile(container);
+        try {
+            lock.writeLock().lock();
+            C container = readFile();
+            consumer.accept(container);
+            writeFile(container);
+        } finally {
+            lock.writeLock().unlock();
+        }
     }
 
     @Override
     public List<T> findAll() throws Exception {
-        return toCollection(readFile());
+        List<T> result = null;
+        try {
+            lock.readLock().lock();
+            result = toCollection(readFile());
+        } finally {
+            lock.readLock().unlock();
+        }
+        return result;
     }
 
     @Override
@@ -100,7 +132,6 @@ public abstract class XmlDao<C, T extends IId<Id>, Id> implements CrudDao<T, Id>
                 throw new NoSuchElementException("Called to not existing element");
             }
         });
-
     }
 
     @Override
