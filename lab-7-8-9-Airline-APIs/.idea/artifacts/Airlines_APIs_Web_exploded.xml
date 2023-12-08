@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" build-on-make="true" name="Airlines-APIs:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Airlines_APIs_Web_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Airlines-APIs" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="Airlines-APIs/web/WebAirlines Web Server" />
+    </root>
+  </artifact>
+</component>
