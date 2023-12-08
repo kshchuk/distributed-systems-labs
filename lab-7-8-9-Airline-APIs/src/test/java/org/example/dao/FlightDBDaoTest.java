@@ -63,7 +63,7 @@ public class FlightDBDaoTest {
             dataBaseSize++;
             var flights = flightDBDao.findAll();
             assertEquals(dataBaseSize, flights.size());
-            var getFlight = flights.getLast();
+            var getFlight = flights.get(flights.size() - 1);
             var readFlight = flightDBDao.read(getFlight.getId());
             assertEquals(getFlight.getId(), readFlight.getId());
             assertEquals(getFlight.getOrigin(), readFlight.getOrigin());
@@ -88,7 +88,7 @@ public class FlightDBDaoTest {
         dataBaseSize++;
         var flights = flightDBDao.findAll();
         assertEquals(dataBaseSize, flights.size());
-        var getFlight = flights.getLast();
+        var getFlight = flights.get(flights.size() - 1);
         getFlight.setOrigin("Test Origin 2");
         getFlight.setDestination("Test Destination 2");
         getFlight.setFlightNumber("Test Flight Number 2");
@@ -121,7 +121,7 @@ public class FlightDBDaoTest {
             dataBaseSize++;
             var flights = flightDBDao.findAll();
             assertEquals(dataBaseSize, flights.size());
-            var getFlight = flights.getLast();
+            var getFlight = flights.get(flights.size() - 1);
             flightDBDao.delete(getFlight.getId());
             dataBaseSize--;
             flights = flightDBDao.findAll();
@@ -142,7 +142,7 @@ public class FlightDBDaoTest {
             dataBaseSize++;
             var flights = flightDBDao.findAll();
             assertEquals(dataBaseSize, flights.size());
-            var getFlight = flights.getLast();
+            var getFlight = flights.get(flights.size() - 1);
             var readFlight = flightDBDao.read(getFlight.getId());
             assertEquals(getFlight.getId(), readFlight.getId());
             assertEquals(getFlight.getOrigin(), readFlight.getOrigin());

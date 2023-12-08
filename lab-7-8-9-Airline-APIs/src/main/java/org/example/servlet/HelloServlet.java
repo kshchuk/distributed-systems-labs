@@ -1,7 +1,6 @@
 package org.example.servlet;
 
 import java.io.*;
-
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
