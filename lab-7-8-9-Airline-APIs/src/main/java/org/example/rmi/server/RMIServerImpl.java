@@ -94,8 +94,8 @@ public class RMIServerImpl extends UnicastRemoteObject implements RMIServer {
     }
 
     @Override
-    public List<FlightDto> findAllByAirline(UUID airlineId) throws Exception {
-        return flightController.findAllByAirline(airlineId);
+    public List<FlightDto> findAllByAirlineId(UUID airlineId) throws Exception {
+        return flightController.findAllByAirlineId(airlineId);
     }
 
     @Override

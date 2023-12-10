@@ -18,6 +18,6 @@ public interface MergedController extends Remote {
     FlightDto getFlight(UUID id) throws Exception;
     void updateFlight(FlightDto flightDto) throws Exception;
     boolean deleteFlight(UUID id) throws Exception;
-    List<FlightDto> findAllByAirline(UUID airlineId) throws Exception;
+    List<FlightDto> findAllByAirlineId(UUID airlineId) throws Exception;
     List<FlightDto> findAllByAirline(String airlineName) throws Exception;
 }

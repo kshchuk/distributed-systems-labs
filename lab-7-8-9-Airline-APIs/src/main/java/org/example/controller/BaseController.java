@@ -7,8 +7,11 @@ import org.example.service.Service;
 import java.util.NoSuchElementException;
 
 public abstract class BaseController<E extends IId<Id>, DTO extends IId<Id>, Id> {
-    protected final Service<E, Id> service;
-    protected final Mapper<E, DTO> mapper;
+    protected Service<E, Id> service;
+    protected Mapper<E, DTO> mapper;
+
+    public BaseController() {
+    }
 
     public BaseController(Service<E, Id> service, Mapper<E, DTO> mapper) {
         this.service = service;

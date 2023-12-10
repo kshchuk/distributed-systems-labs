@@ -26,7 +26,7 @@ public class RequestHandler {
                     return new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirline(airlineName));
                 } else if (request.getPath().startsWith("/airline/") && request.getPath().endsWith("/flights")) {
                     var airlineId = UUID.fromString(request.getPath().split("/")[2]);
-                    return new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirline(airlineId));
+                    return new Response(Response.ResponseStatus.SUCCESS, flightController.findAllByAirlineId(airlineId));
                 } else if (request.getPath().startsWith("/flight/")) {
                     var flightId = UUID.fromString(request.getPath().split("/")[2]);
                     return new Response(Response.ResponseStatus.SUCCESS, flightController.get(flightId));
