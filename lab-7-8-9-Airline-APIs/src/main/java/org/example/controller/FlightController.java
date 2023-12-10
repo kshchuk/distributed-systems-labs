@@ -14,9 +14,7 @@ import org.example.service.FlightServiceImpl;
 import java.sql.SQLException;
 import java.util.*;
 
-import javax.jws.WebService;
-
-@WebService(endpointInterface = "org.example.controller.FlightController")
+@javax.jws.WebService(endpointInterface = "org.example.controller.FlightController")
 public class FlightController extends BaseController<Flight, FlightDto, UUID> {
     private final AirlineService airlineService;
     public FlightController() throws SQLException {

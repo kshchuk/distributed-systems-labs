@@ -1,13 +1,15 @@
-package org.example.controller;
+package org.example.rest;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.Response;
+import org.example.controller.ControllerFactoryImpl;
+import org.example.controller.FlightController;
 
 import java.sql.SQLException;
 
-@Path("/flights")
+@Path("/flight")
 public class FlightRestController {
     private final FlightController flightController;
 

@@ -5,13 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.SneakyThrows;
 import org.example.controller.ControllerFactoryImpl;
 import org.example.controller.FlightController;
 
 import java.io.IOException;
-import java.util.UUID;
-
+import java.sql.SQLException;
 
 
 @WebServlet(name = "FlightServlet",
@@ -19,10 +17,14 @@ import java.util.UUID;
 public class FlightServlet extends HttpServlet {
     FlightController flightController;
 
-    @SneakyThrows
+    @Override
     public void init() {
         var factory = new ControllerFactoryImpl();
-        flightController = factory.getFlightController();
+        try {
+            flightController = factory.getFlightController();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -39,5 +41,4 @@ public class FlightServlet extends HttpServlet {
             }
         }
     }
-
 }

@@ -11,11 +11,12 @@
 <head>
     <link rel="stylesheet" href="../css/bootstrap.css"/>
     <script src="../js/bootstrap.js"></script>
+    <title>Flights</title>
 </head>
 
 <body>
 <div class="container">
-    <h2>Employees</h2>
+    <h2>Flights</h2>
     <!--Search Form -->
     <form action="/flight" method="get" id="seachFlightForm" role="form">
         <input type="hidden" id="searchAction" name="searchAction" value="searchByAirlineName">
@@ -29,7 +30,7 @@
         <br></br>
     </form>
 
-    <!--Employees List-->
+    <!--Flights List-->
     <form action="/flight" method="post" id="flightForm" role="form" >
 
         <c:choose>

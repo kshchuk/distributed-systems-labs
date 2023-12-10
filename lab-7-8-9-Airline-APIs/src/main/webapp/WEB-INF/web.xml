@@ -13,8 +13,17 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>Flight Servlet</servlet-name>
+        <servlet-class>org.example.servlet.FlightServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Flight REST SERVICE</servlet-name>
         <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Flight Servlet</servlet-name>
+        <url-pattern>/flights</url-pattern>
     </servlet-mapping>
 </web-app>

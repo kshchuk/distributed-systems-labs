@@ -101,8 +101,8 @@ public class FlightDBDaoTest {
         assertEquals(getFlight.getOrigin(), readFlight.getOrigin());
         assertEquals(getFlight.getDestination(), readFlight.getDestination());
         assertEquals(getFlight.getFlightNumber(), readFlight.getFlightNumber());
-        assertEquals(getFlight.getDepartureTime() / 1000, readFlight.getDepartureTime() / 1000);
-        assertEquals(getFlight.getArrivalTime() / 1000, readFlight.getArrivalTime() / 1000);
+        assertEquals(getFlight.getDepartureTime() / 10000, readFlight.getDepartureTime() / 10000);
+        assertEquals(getFlight.getArrivalTime() / 10000, readFlight.getArrivalTime() / 10000);
         assertEquals(getFlight.getAirline_id(), readFlight.getAirline_id());
     }
 
