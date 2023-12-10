@@ -9,17 +9,17 @@ import org.example.controller.FlightController;
 
 import java.sql.SQLException;
 
-@Path("/flight")
-public class FlightRestController {
-    private final FlightController flightController;
-
-    public FlightRestController() throws SQLException {
-        var factory = new ControllerFactoryImpl();flightController = factory.getFlightController();
-    }
-
-    @GET
-    @Path("/all/{airlineName}")
-    public Response getAllFlightsByAirlineName(@PathParam("airlineName") String airlineName) {
-        return Response.ok(flightController.findAllByAirline(airlineName)).build();
-    }
-}
+//@Path("/flight")
+//public class FlightRestController {
+//    private final FlightController flightController;
+//
+//    public FlightRestController() throws SQLException {
+//        var factory = new ControllerFactoryImpl();flightController = factory.getFlightController();
+//    }
+//
+//    @GET
+//    @Path("/all/{airlineName}")
+//    public Response getAllFlightsByAirlineName(@PathParam("airlineName") String airlineName) {
+//        return Response.ok(flightController.findAllByAirline(airlineName)).build();
+//    }
+//}
