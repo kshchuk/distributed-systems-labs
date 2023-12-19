@@ -1,6 +1,5 @@
 package org.example.mapper;
 
-import org.example.dto.AirlineDto;
 import org.example.model.Airline;
 import org.junit.jupiter.api.*;
 

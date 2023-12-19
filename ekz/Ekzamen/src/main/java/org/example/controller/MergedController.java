@@ -1,8 +1,5 @@
 package org.example.controller;
 
-import org.example.dto.AirlineDto;
-import org.example.dto.FlightDto;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;

@@ -1,77 +1,17 @@
-package org.example.socket.client;
+package org.example.rmi.client;
 
-import org.example.dto.AirlineDto;
-import org.example.dto.FlightDto;
-import org.example.dto.Request;
+import org.example.rmi.server.RMIServer;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 public class Client {
-
-    public Socket socket;
-    public ObjectInputStream sInput;
-    public ObjectOutputStream sOutput;
-    public String serverIP;
-    public int serverPort;
-    public ClientListenThread listenThread;
-
-    public Client() {
-
-    }
-
-    public void Connect(String serverIP, int port) {
-        try {
-            System.out.println("Connecting to the server");
-
-            this.serverIP = serverIP;
-            this.serverPort = port;
-            this.socket = new Socket(this.serverIP, this.serverPort);
-
-            System.out.println("Connecting to the server");
-
-            sOutput = new ObjectOutputStream(this.socket.getOutputStream());
-            sInput = new ObjectInputStream(this.socket.getInputStream());
-            listenThread = new ClientListenThread(this);
-
-            this.listenThread.start();
-        } catch (IOException ex) {
-            System.out.println("Can not connected to the server.");
-        }
-    }
-
-    public void Stop() {
-        if (this.socket != null) {
-
-            try {
-                this.socket.close();
-                this.sOutput.flush();
-                this.sOutput.close();
-                this.sInput.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    public void SendRequest(Request request) {
-        try {
-            this.sOutput.writeObject(request);
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void main(String[] args) {
-        Client client = new Client();
-        client.Connect("localhost", 5000);
+    public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException {
+        RMIServer server = (RMIServer) Naming.lookup("rmi://localhost:1099/server");
 
         var scanner = new Scanner(System.in);
 
@@ -94,32 +34,32 @@ public class Client {
             try {
                 switch (option) {
                     case 1 -> {
-                        var request = new Request(Request.RequestMethod.GET, "/airline", null);
-                        client.SendRequest(request);
+                        var airlines = server.findAllAirlines();
+                        System.out.println(airlines);
                     }
                     case 2 -> {
                         System.out.println("Enter airline id: ");
                         var airlineId = scanner.next();
-                        var request = new Request(Request.RequestMethod.GET, "/airline/" + airlineId + "/flights", null);
-                        client.SendRequest(request);
+                        var airlines = server.findAllAirlines();
+                        System.out.println(airlines);
                     }
                     case 3 -> {
                         System.out.println("Enter airline name: ");
                         var airlineName = scanner.next();
-                        var request = new Request(Request.RequestMethod.GET, "/airline/name/" + airlineName + "/flights", null);
-                        client.SendRequest(request);
+                        var flights = server.findAllByAirline(airlineName);
+                        System.out.println(flights);
                     }
                     case 4 -> {
                         System.out.println("Enter flight id: ");
                         var flightId = scanner.next();
-                        var request = new Request(Request.RequestMethod.GET, "/flight/" + flightId, null);
-                        client.SendRequest(request);
+                        var flight = server.getFlight(UUID.fromString(flightId));
+                        System.out.println(flight);
                     }
                     case 5 -> {
                         System.out.println("Enter airline id: ");
                         var airlineId = scanner.next();
-                        var request = new Request(Request.RequestMethod.GET, "/airline/" + airlineId, null);
-                        client.SendRequest(request);
+                        var airline = server.getAirline(UUID.fromString(airlineId));
+                        System.out.println(airline);
                     }
                     case 6 -> {
                         var airlineDto = new AirlineDto();
@@ -129,8 +69,8 @@ public class Client {
                         airlineDto.setCode(scanner.next());
                         System.out.println("Enter airline country: ");
                         airlineDto.setCountry(scanner.next());
-                        var request = new Request(Request.RequestMethod.POST, "/airline", airlineDto);
-                        client.SendRequest(request);
+                        var airline = server.createAirline(airlineDto);
+                        System.out.println(airline);
                     }
                     case 7 -> {
                         var flightDto = new FlightDto();
@@ -146,8 +86,8 @@ public class Client {
                         flightDto.setDepartureTime(Long.parseLong(scanner.next()));
                         System.out.println("Enter flight arrival time: ");
                         flightDto.setArrivalTime(Long.parseLong(scanner.next()));
-                        var request = new Request(Request.RequestMethod.POST, "/flight", flightDto);
-                        client.SendRequest(request);
+                        var flight = server.createFlight(flightDto);
+                        System.out.println(flight);
                     }
                     case 8 -> {
                         AirlineDto airlineDto = new AirlineDto();
@@ -159,8 +99,7 @@ public class Client {
                         airlineDto.setCode(scanner.next());
                         System.out.println("Enter airline country: ");
                         airlineDto.setCountry(scanner.next());
-                        var request = new Request(Request.RequestMethod.PUT, "/airline", airlineDto);
-                        client.SendRequest(request);
+                        server.updateAirline(airlineDto);
                     }
                     case 9 -> {
                         FlightDto flightDto = new FlightDto();
@@ -178,23 +117,19 @@ public class Client {
                         flightDto.setDepartureTime(Long.parseLong(scanner.next()));
                         System.out.println("Enter flight arrival time: ");
                         flightDto.setArrivalTime(Long.parseLong(scanner.next()));
-                        var request = new Request(Request.RequestMethod.PUT, "/flight", flightDto);
-                        client.SendRequest(request);
+                        server.updateFlight(flightDto);
                     }
                     case 10 -> {
                         System.out.println("Enter airline id: ");
                         var airlineId = scanner.next();
-                        var request = new Request(Request.RequestMethod.DELETE, "/airline/" + airlineId, null);
-                        client.SendRequest(request);
+                        server.deleteAirline(UUID.fromString(airlineId));
                     }
                     case 11 -> {
                         System.out.println("Enter flight id: ");
                         var flightId = scanner.next();
-                        var request = new Request(Request.RequestMethod.DELETE, "/flight/" + flightId, null);
-                        client.SendRequest(request);
+                        server.deleteFlight(UUID.fromString(flightId));
                     }
                     case 12 -> {
-                        client.Stop();
                         scanner.close();
                         System.exit(0);
                     }

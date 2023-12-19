@@ -4,8 +4,6 @@ import org.example.controller.AirlineController;
 import org.example.controller.ControllerFactory;
 import org.example.controller.ControllerFactoryImpl;
 import org.example.controller.FlightController;
-import org.example.dto.AirlineDto;
-import org.example.dto.FlightDto;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMISocketFactory;

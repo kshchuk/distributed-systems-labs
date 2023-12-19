@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.dto.AirlineDto;
 import org.example.mapper.AirlineMapper;
 import org.example.model.Airline;
 import org.example.service.AirlineService;

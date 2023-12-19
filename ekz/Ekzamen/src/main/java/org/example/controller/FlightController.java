@@ -3,7 +3,6 @@ package org.example.controller;
 import org.example.dao.AirlineDao;
 import org.example.dao.FlightDao;
 import org.example.dao.db.DAOManager;
-import org.example.dto.FlightDto;
 import org.example.mapper.FlightMapper;
 import org.example.model.Flight;
 import org.example.service.AirlineService;

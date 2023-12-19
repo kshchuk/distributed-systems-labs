@@ -1,7 +1,6 @@
 package org.example.mapper;
 
 import org.example.model.Flight;
-import org.example.dto.FlightDto;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
