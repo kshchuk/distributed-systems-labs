@@ -1,5 +1,7 @@
 package org.example.rmi.client;
 
+import org.example.dto.EmailContactDto;
+import org.example.dto.PhoneContactDto;
 import org.example.rmi.server.RMIServer;
 
 import java.net.MalformedURLException;
@@ -16,123 +18,153 @@ public class Client {
         var scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("1. Get all airlines");
-            System.out.println("2. Get all flights by airline id");
-            System.out.println("3. Get all flights by airline name");
-            System.out.println("4. Get flight by id");
-            System.out.println("5. Get airline by id");
-            System.out.println("6. Create airline");
-            System.out.println("7. Create flight");
-            System.out.println("8. Update airline");
-            System.out.println("9. Update flight");
-            System.out.println("10. Delete airline");
-            System.out.println("11. Delete flight");
-            System.out.println("12. Exit");
+            System.out.println("1. Create email contact");
+            System.out.println("2. Create phone contact");
+            System.out.println("3. Read email contact");
+            System.out.println("4. Read phone contact");
+            System.out.println("5. Update email contact");
+            System.out.println("6. Update phone contact");
+            System.out.println("7. Delete email contact");
+            System.out.println("8. Delete phone contact");
+            System.out.println("9. Filter email contact by first name");
+            System.out.println("10. Filter phone contact by first name");
+            System.out.println("11. Filter email contact by last name");
+            System.out.println("12. Filter phone contact by last name");
+            System.out.println("13. Filter email contact by First name and last name");
+            System.out.println("14. Filter phone contact by First name and last name");
+            System.out.println("15. Exit");
 
             var option = scanner.nextInt();
 
             try {
                 switch (option) {
                     case 1 -> {
-                        var airlines = server.findAllAirlines();
-                        System.out.println(airlines);
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+                        System.out.println("Enter email:");
+                        var email = scanner.next();
+
+                        EmailContactDto emailContactDto = new EmailContactDto(firstName, lastName, email);
+                        emailContactDto = server.createEmailContact(emailContactDto);
+                        System.out.println(emailContactDto);
                     }
                     case 2 -> {
-                        System.out.println("Enter airline id: ");
-                        var airlineId = scanner.next();
-                        var airlines = server.findAllAirlines();
-                        System.out.println(airlines);
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+                        System.out.println("Enter phone:");
+                        var phone = scanner.next();
+
+                        PhoneContactDto phoneContactDto = new PhoneContactDto(firstName, lastName, phone);
+                        phoneContactDto = server.createPhoneContact(phoneContactDto);
+                        System.out.println(phoneContactDto);
                     }
                     case 3 -> {
-                        System.out.println("Enter airline name: ");
-                        var airlineName = scanner.next();
-                        var flights = server.findAllByAirline(airlineName);
-                        System.out.println(flights);
+                        System.out.println("Enter id:");
+                        var id = scanner.next();
+
+                        EmailContactDto emailContactDto = server.readEmailContact(UUID.fromString(id));
+                        System.out.println(emailContactDto);
                     }
                     case 4 -> {
-                        System.out.println("Enter flight id: ");
-                        var flightId = scanner.next();
-                        var flight = server.getFlight(UUID.fromString(flightId));
-                        System.out.println(flight);
+                        System.out.println("Enter id:");
+                        var id = scanner.next();
+
+                        PhoneContactDto phoneContactDto = server.readPhoneContact(UUID.fromString(id));
+                        System.out.println(phoneContactDto);
                     }
                     case 5 -> {
-                        System.out.println("Enter airline id: ");
-                        var airlineId = scanner.next();
-                        var airline = server.getAirline(UUID.fromString(airlineId));
-                        System.out.println(airline);
+                        System.out.println("Enter id:");
+                        var id = scanner.next();
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+                        System.out.println("Enter email:");
+                        var email = scanner.next();
+
+                        EmailContactDto emailContactDto = new EmailContactDto(firstName, lastName, email);
+                        emailContactDto.setId(UUID.fromString(id));
+                        emailContactDto = server.updateEmailContact(emailContactDto);
+                        System.out.println(emailContactDto);
                     }
                     case 6 -> {
-                        var airlineDto = new AirlineDto();
-                        System.out.println("Enter airline name: ");
-                        airlineDto.setName(scanner.next());
-                        System.out.println("Enter airline code: ");
-                        airlineDto.setCode(scanner.next());
-                        System.out.println("Enter airline country: ");
-                        airlineDto.setCountry(scanner.next());
-                        var airline = server.createAirline(airlineDto);
-                        System.out.println(airline);
+                        System.out.println("Enter id:");
+                        var id = scanner.next();
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+                        System.out.println("Enter phone:");
+                        var phone = scanner.next();
+
+                        PhoneContactDto phoneContactDto = new PhoneContactDto(firstName, lastName, phone);
+                        phoneContactDto.setId(UUID.fromString(id));
+                        phoneContactDto = server.updatePhoneContact(phoneContactDto);
+                        System.out.println(phoneContactDto);
                     }
                     case 7 -> {
-                        var flightDto = new FlightDto();
-                        System.out.println("Enter flight origin: ");
-                        flightDto.setOrigin(scanner.next());
-                        System.out.println("Enter flight destination: ");
-                        flightDto.setDestination(scanner.next());
-                        System.out.println("Enter flight number: ");
-                        flightDto.setFlightNumber(scanner.next());
-                        System.out.println("Enter flight airline id: ");
-                        flightDto.setAirlineId(UUID.fromString(scanner.next()));
-                        System.out.println("Enter flight departure time: ");
-                        flightDto.setDepartureTime(Long.parseLong(scanner.next()));
-                        System.out.println("Enter flight arrival time: ");
-                        flightDto.setArrivalTime(Long.parseLong(scanner.next()));
-                        var flight = server.createFlight(flightDto);
-                        System.out.println(flight);
+                        System.out.println("Enter id:");
+                        var id = scanner.next();
+
+                        server.deleteEmailContact(UUID.fromString(id));
                     }
                     case 8 -> {
-                        AirlineDto airlineDto = new AirlineDto();
-                        System.out.println("Enter airline id: ");
-                        airlineDto.setAirlineId(UUID.fromString(scanner.next()));
-                        System.out.println("Enter airline name: ");
-                        airlineDto.setName(scanner.next());
-                        System.out.println("Enter airline code: ");
-                        airlineDto.setCode(scanner.next());
-                        System.out.println("Enter airline country: ");
-                        airlineDto.setCountry(scanner.next());
-                        server.updateAirline(airlineDto);
+                        System.out.println("Enter id:");
+                        var id = scanner.next();
+
+                        server.deletePhoneContact(UUID.fromString(id));
                     }
                     case 9 -> {
-                        FlightDto flightDto = new FlightDto();
-                        System.out.println("Enter flight id: ");
-                        flightDto.setFlightId(UUID.fromString(scanner.next()));
-                        System.out.println("Enter flight origin: ");
-                        flightDto.setOrigin(scanner.next());
-                        System.out.println("Enter flight destination: ");
-                        flightDto.setDestination(scanner.next());
-                        System.out.println("Enter flight number: ");
-                        flightDto.setFlightNumber(scanner.next());
-                        System.out.println("Enter flight airline id: ");
-                        flightDto.setAirlineId(UUID.fromString(scanner.next()));
-                        System.out.println("Enter flight departure time: ");
-                        flightDto.setDepartureTime(Long.parseLong(scanner.next()));
-                        System.out.println("Enter flight arrival time: ");
-                        flightDto.setArrivalTime(Long.parseLong(scanner.next()));
-                        server.updateFlight(flightDto);
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+
+                        var emailContactDtos = server.findAllEmailContactsByFirstName(firstName);
+                        emailContactDtos.forEach(System.out::println);
                     }
                     case 10 -> {
-                        System.out.println("Enter airline id: ");
-                        var airlineId = scanner.next();
-                        server.deleteAirline(UUID.fromString(airlineId));
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+
+                        var phoneContactDtos = server.findAllPhoneContactsByFirstName(firstName);
+                        phoneContactDtos.forEach(System.out::println);
                     }
                     case 11 -> {
-                        System.out.println("Enter flight id: ");
-                        var flightId = scanner.next();
-                        server.deleteFlight(UUID.fromString(flightId));
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+
+                        var emailContactDtos = server.findAllEmailContactsByLastName(lastName);
+                        emailContactDtos.forEach(System.out::println);
                     }
                     case 12 -> {
-                        scanner.close();
-                        System.exit(0);
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+
+                        var phoneContactDtos = server.findAllPhoneContactsByLastName(lastName);
+                        phoneContactDtos.forEach(System.out::println);
                     }
+                    case 13 -> {
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+
+                        var emailContactDtos = server.findAllEmailContactsByFullName(firstName, lastName);
+                        emailContactDtos.forEach(System.out::println);
+                    }
+                    case 14 -> {
+                        System.out.println("Enter first name:");
+                        var firstName = scanner.next();
+                        System.out.println("Enter last name:");
+                        var lastName = scanner.next();
+
+                        var phoneContactDtos = server.findAllPhoneContactsByFullName(firstName, lastName);
+                        phoneContactDtos.forEach(System.out::println);
+                    }
+                    case 15 -> System.exit(0);
                     default -> System.out.println("Invalid option");
                 }
             } catch (Exception ex) {

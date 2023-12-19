@@ -21,7 +21,7 @@ public class ListenConnectionRequestThread extends Thread {
         while (!this.server.socket.isClosed()) {
             try {
                 Socket nSocket = this.server.socket.accept();
-                SClient nClient = new SClient(nSocket, this.server.flightController, this.server.airlineController);
+                SClient nClient = new SClient(nSocket, this.server.phoneContactController, this.server.emailContactController);
                 nClient.Listen();
                 SocketServer.clients.add(nClient);
                 Logger.getLogger(ListenConnectionRequestThread.class.getName()).info("New client connected to the server.");

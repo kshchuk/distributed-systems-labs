@@ -1,7 +1,7 @@
 package org.example.socket.server;
 
-import org.example.controller.AirlineController;
-import org.example.controller.FlightController;
+import org.example.controller.EmailContactController;
+import org.example.controller.PhoneContactController;
 import org.example.dto.Request;
 import org.example.socket.server.handler.RequestHandler;
 
@@ -16,9 +16,9 @@ public class ClientListenThread extends Thread {
     RequestHandler requestHandler;
     SClient client;
 
-    public ClientListenThread(SClient client, FlightController flightController, AirlineController airlineController) {
+    public ClientListenThread(SClient client, EmailContactController emailContactController, PhoneContactController phoneContactController) {
         this.client = client;
-        this.requestHandler = new RequestHandler(airlineController, flightController);
+        this.requestHandler = new RequestHandler(emailContactController, phoneContactController);
     }
 
     @Override

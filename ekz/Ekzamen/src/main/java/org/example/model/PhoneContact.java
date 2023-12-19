@@ -2,7 +2,9 @@ package org.example.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class PhoneContact extends Contact {
@@ -11,6 +13,10 @@ public class PhoneContact extends Contact {
     public PhoneContact(String firstName, String lastName, String phoneNumber) {
         super(firstName, lastName);
         this.phoneNumber = phoneNumber;
+    }
+
+    public PhoneContact() {
+        super();
     }
 
     @Override

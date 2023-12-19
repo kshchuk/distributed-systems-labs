@@ -1,18 +1,14 @@
 package org.example.socket.server;
 
-import org.example.controller.AirlineController;
-import org.example.controller.ControllerFactory;
-import org.example.controller.ControllerFactoryImpl;
-import org.example.controller.FlightController;
-import org.example.dao.AirlineDao;
-import org.example.dao.FlightDao;
-import org.example.dao.db.DAOManager;
-import org.example.mapper.AirlineMapper;
-import org.example.mapper.FlightMapper;
-import org.example.service.AirlineService;
-import org.example.service.AirlineServiceImpl;
-import org.example.service.FlightService;
-import org.example.service.FlightServiceImpl;
+import org.example.controller.EmailContactController;
+import org.example.controller.PhoneContactController;
+import org.example.dao.ContactDao;
+import org.example.mapper.EmailContactMapper;
+import org.example.mapper.PhoneContactMapper;
+import org.example.service.EmailContactService;
+import org.example.service.EmailContactServiceImpl;
+import org.example.service.PhoneContactService;
+import org.example.service.PhoneContactServiceImpl;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,8 +17,8 @@ import java.util.logging.Logger;
 
 //This is a TCP protocol connection based server.
 public class SocketServer {
-    public FlightController flightController;
-    public AirlineController airlineController;
+    public PhoneContactController phoneContactController;
+    public EmailContactController emailContactController;
 
     public ServerSocket socket;
     public int port;
@@ -30,11 +26,11 @@ public class SocketServer {
     public ClientRemovingControlThread removingControlThread;
     public static ArrayList<SClient> clients;
 
-    public SocketServer(int port, FlightController flightController, AirlineController airlineController) {
+    public SocketServer(int port, PhoneContactController phoneContactController, EmailContactController emailContactController) {
         try {
             this.port = port;
-            this.flightController = flightController;
-            this.airlineController = airlineController;
+            this.phoneContactController = phoneContactController;
+            this.emailContactController = emailContactController;
             this.socket = new ServerSocket(this.port);
             this.listenConnectionRequestThread = new ListenConnectionRequestThread(this);
             removingControlThread = new ClientRemovingControlThread(this);
@@ -62,11 +58,17 @@ public class SocketServer {
     }
 
     public static void main(String[] args) throws Exception {
-        ControllerFactory controllerFactory = new ControllerFactoryImpl();
-        FlightController flightController = controllerFactory.getFlightController();
-        AirlineController airlineController = controllerFactory.getAirlineController();
+        var dao = new ContactDao();
+        EmailContactService emailContactService = new EmailContactServiceImpl(dao);
+        PhoneContactService phoneContactService = new PhoneContactServiceImpl(dao);
 
-        SocketServer server = new SocketServer(5000, flightController, airlineController);
+        var phoneContactMapper = new PhoneContactMapper();
+        var emailContactMapper = new EmailContactMapper();
+
+        var emailContactController = new EmailContactController(emailContactService, emailContactMapper);
+        var phoneContactController = new PhoneContactController(phoneContactService, phoneContactMapper);
+
+        SocketServer server = new SocketServer(5000, phoneContactController, emailContactController);
         server.start();
     }
 }

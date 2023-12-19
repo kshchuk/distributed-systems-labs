@@ -1,11 +1,14 @@
 package org.example.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Data
+@Getter
+@Setter
 public class Contact implements IId<UUID>{
     protected UUID id;
 
@@ -16,6 +19,10 @@ public class Contact implements IId<UUID>{
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = UUID.randomUUID();
+    }
+
+    public Contact() {
+
     }
 
     @Override

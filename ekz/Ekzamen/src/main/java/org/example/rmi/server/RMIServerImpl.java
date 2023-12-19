@@ -1,9 +1,16 @@
 package org.example.rmi.server;
 
-import org.example.controller.AirlineController;
-import org.example.controller.ControllerFactory;
-import org.example.controller.ControllerFactoryImpl;
-import org.example.controller.FlightController;
+import org.example.controller.EmailContactController;
+import org.example.controller.PhoneContactController;
+import org.example.dao.ContactDao;
+import org.example.dto.EmailContactDto;
+import org.example.dto.PhoneContactDto;
+import org.example.mapper.EmailContactMapper;
+import org.example.mapper.PhoneContactMapper;
+import org.example.service.EmailContactService;
+import org.example.service.EmailContactServiceImpl;
+import org.example.service.PhoneContactService;
+import org.example.service.PhoneContactServiceImpl;
 
 import java.rmi.RemoteException;
 import java.rmi.server.RMISocketFactory;
@@ -11,11 +18,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 public class RMIServerImpl extends UnicastRemoteObject implements RMIServer {
-    private final AirlineController airlineController;
-    private final FlightController flightController;
+    private final EmailContactController emailContactController;
+    private final PhoneContactController phoneContactController;
 
     /**
      * Creates and exports a new UnicastRemoteObject object using an
@@ -28,76 +34,86 @@ public class RMIServerImpl extends UnicastRemoteObject implements RMIServer {
      * @since 1.1
      */
     protected RMIServerImpl() throws RemoteException, SQLException {
-        ControllerFactory fac = new ControllerFactoryImpl();
-        this.airlineController = fac.getAirlineController();
-        this.flightController = fac.getFlightController();
+        var dao = new ContactDao();
+        EmailContactService emailContactService = new EmailContactServiceImpl(dao);
+        PhoneContactService phoneContactService = new PhoneContactServiceImpl(dao);
+
+        var phoneContactMapper = new PhoneContactMapper();
+        var emailContactMapper = new EmailContactMapper();
+
+        this.emailContactController = new EmailContactController(emailContactService, emailContactMapper);
+        this.phoneContactController = new PhoneContactController(phoneContactService, phoneContactMapper);
     }
 
     @Override
-    public AirlineDto createAirline(AirlineDto airlineDto) throws RemoteException {
-        try {
-            airlineDto = airlineController.create(airlineDto);
-        } catch (Exception e) {
-            Logger.getLogger(RMIServerImpl.class.getName()).info(e.getMessage());
-        }
-        return airlineDto;
+    public EmailContactDto createEmailContact(EmailContactDto emailContactDto) throws Exception {
+        return emailContactController.create(emailContactDto);
     }
 
     @Override
-    public AirlineDto getAirline(UUID id) {
-        return airlineController.get(id);
-    }
-
-
-    @Override
-    public void updateAirline(AirlineDto airlineDto) {
-        airlineController.update(airlineDto);
+    public EmailContactDto readEmailContact(UUID id) throws Exception {
+        return emailContactController.get(id);
     }
 
     @Override
-    public boolean deleteAirline(UUID id) {
-        return airlineController.delete(id);
+    public EmailContactDto updateEmailContact(EmailContactDto emailContactDto) throws Exception {
+        emailContactController.update(emailContactDto);
+        return emailContactDto;
     }
 
     @Override
-    public List<AirlineDto> findAllAirlines() throws RemoteException {
-        List<AirlineDto> airl = null;
-        try {
-            airl = airlineController.findAll();
-        }
-        catch (Exception e) {
-            Logger.getLogger(RMIServerImpl.class.getName()).info(e.getMessage());
-        }
-        return airl;
+    public void deleteEmailContact(UUID id) throws Exception {
+        emailContactController.delete(id);
     }
 
     @Override
-    public FlightDto createFlight(FlightDto flightDto) throws Exception {
-        return flightController.create(flightDto);
+    public PhoneContactDto createPhoneContact(PhoneContactDto phoneContactDto) throws Exception {
+        return phoneContactController.create(phoneContactDto);
     }
 
     @Override
-    public FlightDto getFlight(UUID id) {
-        return flightController.get(id);
+    public PhoneContactDto readPhoneContact(UUID id) throws Exception {
+        return phoneContactController.get(id);
     }
 
     @Override
-    public void updateFlight(FlightDto flightDto) {
-        flightController.update(flightDto);
+    public PhoneContactDto updatePhoneContact(PhoneContactDto phoneContactDto) throws Exception {
+        phoneContactController.update(phoneContactDto);
+        return phoneContactDto;
     }
 
     @Override
-    public boolean deleteFlight(UUID id) {
-        return flightController.delete(id);
+    public void deletePhoneContact(UUID id) throws Exception {
+        phoneContactController.delete(id);
     }
 
     @Override
-    public List<FlightDto> findAllByAirlineId(UUID airlineId) throws Exception {
-        return flightController.findAllByAirlineId(airlineId);
+    public List<EmailContactDto> findAllEmailContactsByFirstName(String firstName) throws Exception {
+        return (List<EmailContactDto>) emailContactController.findByFirstName(firstName);
     }
 
     @Override
-    public List<FlightDto> findAllByAirline(String airlineName) throws Exception {
-        return flightController.findAllByAirline(airlineName);
+    public List<EmailContactDto> findAllEmailContactsByLastName(String lastName) throws Exception {
+        return (List<EmailContactDto>) emailContactController.findByLastName(lastName);
+    }
+
+    @Override
+    public List<EmailContactDto> findAllEmailContactsByFullName(String firstName, String lastName) throws Exception {
+        return (List<EmailContactDto>) emailContactController.findByFullName(firstName, lastName);
+    }
+
+    @Override
+    public List<PhoneContactDto> findAllPhoneContactsByFirstName(String firstName) throws Exception {
+        return (List<PhoneContactDto>) phoneContactController.findAllByFirstName(firstName);
+    }
+
+    @Override
+    public List<PhoneContactDto> findAllPhoneContactsByLastName(String lastName) throws Exception {
+        return (List<PhoneContactDto>) phoneContactController.findAllByLastName(lastName);
+    }
+
+    @Override
+    public List<PhoneContactDto> findAllPhoneContactsByFullName(String firstName, String lastName) throws Exception {
+        return (List<PhoneContactDto>) phoneContactController.findAllByFullName(firstName, lastName);
     }
 }

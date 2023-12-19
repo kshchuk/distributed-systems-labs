@@ -4,8 +4,6 @@ import org.example.mapper.Mapper;
 import org.example.model.IId;
 import org.example.service.Service;
 
-import java.util.NoSuchElementException;
-
 public abstract class BaseController<E extends IId<Id>, DTO extends IId<Id>, Id> {
     protected Service<E, Id> service;
     protected Mapper<E, DTO> mapper;
@@ -25,15 +23,15 @@ public abstract class BaseController<E extends IId<Id>, DTO extends IId<Id>, Id>
         return dto;
     }
 
-    public DTO get(Id id) throws NoSuchElementException {
+    public DTO get(Id id) throws Exception {
         return mapper.toDTO(service.get(id));
     }
 
-    public void update(DTO dto) throws NoSuchElementException {
+    public void update(DTO dto) throws Exception {
         service.update(mapper.toEntity(dto));
     }
 
-    public boolean delete(Id id) throws NoSuchElementException {
+    public boolean delete(Id id) throws Exception {
         return service.delete(id);
     }
 }

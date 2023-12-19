@@ -1,7 +1,7 @@
 package org.example.socket.server;
 
-import org.example.controller.AirlineController;
-import org.example.controller.FlightController;
+import org.example.controller.EmailContactController;
+import org.example.controller.PhoneContactController;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,13 +18,13 @@ public class SClient {
     public ObjectInputStream cInput;
     public ObjectOutputStream cOutput;
     public ClientListenThread clientListenThread;
-    public SClient(Socket socket, FlightController flightController, AirlineController airlineController) {
+    public SClient(Socket socket, PhoneContactController phoneContactController, EmailContactController emailContactController) {
 
         try {
             this.socket = socket;
             this.cOutput = new ObjectOutputStream(this.socket.getOutputStream());
             this.cInput = new ObjectInputStream(this.socket.getInputStream());
-            this.clientListenThread = new ClientListenThread(this, flightController, airlineController);
+            this.clientListenThread = new ClientListenThread(this, emailContactController, phoneContactController);
         } catch (IOException ex) {
             Logger.getLogger(SClient.class.getName()).log(Level.SEVERE, null, ex);
         }

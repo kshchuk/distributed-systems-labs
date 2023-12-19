@@ -1,20 +1,25 @@
 package org.example.controller;
 
+import org.example.dto.EmailContactDto;
+import org.example.dto.PhoneContactDto;
+
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.UUID;
 
 public interface MergedController extends Remote {
-    AirlineDto createAirline(AirlineDto airlineDto) throws RemoteException;
-    AirlineDto getAirline(UUID id) throws Exception;
-    void updateAirline(AirlineDto airlineDto) throws Exception;
-    boolean deleteAirline(UUID id) throws Exception;
-    List<AirlineDto> findAllAirlines() throws RemoteException;
-    FlightDto createFlight(FlightDto flightDto) throws Exception;
-    FlightDto getFlight(UUID id) throws Exception;
-    void updateFlight(FlightDto flightDto) throws Exception;
-    boolean deleteFlight(UUID id) throws Exception;
-    List<FlightDto> findAllByAirlineId(UUID airlineId) throws Exception;
-    List<FlightDto> findAllByAirline(String airlineName) throws Exception;
+    EmailContactDto createEmailContact(EmailContactDto emailContactDto) throws Exception;
+    EmailContactDto readEmailContact(UUID id) throws Exception;
+    EmailContactDto updateEmailContact(EmailContactDto emailContactDto) throws Exception;
+    void deleteEmailContact(UUID id) throws Exception;
+    PhoneContactDto createPhoneContact(PhoneContactDto phoneContactDto) throws Exception;
+    PhoneContactDto readPhoneContact(UUID id) throws Exception;
+    PhoneContactDto updatePhoneContact(PhoneContactDto phoneContactDto) throws Exception;
+    void deletePhoneContact(UUID id) throws Exception;
+    List<EmailContactDto> findAllEmailContactsByFirstName(String firstName) throws Exception;
+    List<EmailContactDto> findAllEmailContactsByLastName(String lastName) throws Exception;
+    List<EmailContactDto> findAllEmailContactsByFullName(String firstName, String lastName) throws Exception;
+    List<PhoneContactDto> findAllPhoneContactsByFirstName(String firstName) throws Exception;
+    List<PhoneContactDto> findAllPhoneContactsByLastName(String lastName) throws Exception;
+    List<PhoneContactDto> findAllPhoneContactsByFullName(String firstName, String lastName) throws Exception;
 }

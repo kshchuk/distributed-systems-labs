@@ -9,20 +9,20 @@ import lombok.Setter;
 @Setter
 @Getter
 @Data
-public class EmailContactDto extends ContactDto implements java.io.Serializable {
-    private String email;
+public class PhoneContactDto extends ContactDto implements java.io.Serializable {
+    private String phone;
 
-    public EmailContactDto() {
+    public PhoneContactDto() {
     }
 
-    public EmailContactDto(String firstName, String lastName, String email) {
+    public PhoneContactDto(String firstName, String lastName, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
-        return super.toString() + "email: " + email;
+        return super.toString() + "phone: " + phone;
     }
 }
