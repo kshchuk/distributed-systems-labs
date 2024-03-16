@@ -1,4 +1,4 @@
-# Airport project
+# Airport API
 
 This project was created to automate airport activities, manage airlines and flights.
 
